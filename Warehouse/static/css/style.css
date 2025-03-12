@@ -1,0 +1,86 @@
+body {
+  display: flex;
+font-family: 'Raleway', sans-serif;
+}
+
+.sidebar {
+  width: 250px;
+  background:linear-gradient(#f1ae92,#ffffff);
+  height: 100vh;
+  padding: 15px;
+  transition: width 0.3s ease;
+  overflow: hidden;
+}
+
+.sidebar.collapsed {
+  width: 80px;
+}
+
+.sidebar a {
+  color: black;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  text-decoration: none;
+  margin-top: 15px;
+}
+
+.sidebar a:hover{
+    background-color: #ffffff66;
+}
+
+
+.sidebar i {
+  margin-right: 10px;
+}
+
+.sidebar.collapsed a span {
+  display: none;
+}
+
+.toggle-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.content {
+  flex-grow: 1;
+  padding: 20px;
+  transition: margin-left 0.3s ease;
+  width: calc(100% - 250px);
+}
+
+.collapsed ~ .content {
+  width: calc(100% - 80px);
+}
+
+.navbar {
+  box-shadow: 0 4px 6px #0000001a;
+  background-color: black;
+  color:white;
+  padding: 15px 20px;
+}
+
+.navbar .user-info {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.nav-link{
+    color: #ffffff66;
+}
+
+.nav-link:hover {
+  color:white;
+
+}
+
+.navbar img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
