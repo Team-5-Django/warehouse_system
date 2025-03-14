@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>{% if object %}Edit Order{% else %}Create Order{% endif %}</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <h3>Line Items</h3>
+    {{ line_items.management_form }}
+    {% for form in line_items %}
+    <div class="line-item-form">
+        {{ form.as_table }}
+    </div>
+    {% endfor %}
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a href="{% url 'order_list' %}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}
