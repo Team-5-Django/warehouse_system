@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2 style="color:#f1ae92;">HELLO {{ user.username }}</h2>
+<p>YOU ARE : {{ user.get_role_display }}</p>
+<a href="{% url 'logout' %}">LOGOUT </a>
+{% endblock %}
