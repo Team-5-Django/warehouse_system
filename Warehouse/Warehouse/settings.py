@@ -38,14 +38,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'home',
+    'users',
     'inventory',
+    'shipments',
     'orders',
     'dashboard',
-    'shipments',
-    'users'
-    
-
-
 ]
 
 MIDDLEWARE = [
@@ -141,5 +138,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
 AUTH_USER_MODEL = 'users.User'

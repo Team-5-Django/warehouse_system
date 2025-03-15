@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="container mt-4">
+        <div class="card shadow-sm border rounded p-4">
+            <h2 class="mb-3 text-center">Shipment: {{ shipment.reference }}</h2>
+
+            <p><strong>Factory:</strong> {{ shipment.factory }}</p>
+            <p><strong>Status:</strong> <span class="badge bg-info text-dark">{{ shipment.status }}</span></p>
+
+            <h4 class="mt-4">Shipment Items:</h4>
+            <ul class="list-group mb-3">
+                {% for item in shipment.line_items.all %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        {{ item.product.name }}
+                        <span class="badge bg-secondary">{{ item.quantity }}</span>
+                    </li>
+                {% empty %}
+                    <li class="list-group-item text-muted">No items added yet.</li>
+                {% endfor %}
+            </ul>
+
+            {% if user.is_manager %}
+                <div class="d-flex justify-content-center gap-2">
+                    <a href="{% url 'edit_shipment' shipment.id %}" class="btn btn-warning">Edit</a>
+                    <a href="{% url 'confirm_shipment' shipment.id %}" class="btn btn-success">Confirm</a>
+                    <form action="{% url 'delete_shipment' shipment.id %}" method="post" onsubmit="return confirm('Are you sure you want to delete this shipment?');">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+

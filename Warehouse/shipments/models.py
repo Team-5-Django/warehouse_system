@@ -16,6 +16,11 @@ class Shipment(models.Model):
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Pending')
 
+    class Meta:
+        ordering = ['status', '-created_at']
+        verbose_name = "Shipment"
+        verbose_name_plural = "Shipments"
+
     def __str__(self):
         return f"{self.reference} - {self.status}"
 
@@ -26,3 +31,22 @@ class ShipmentLineItem(models.Model):
 
     def __str__(self):
         return f"{self.product.name} x {self.quantity} (Shipment: {self.shipment.reference})"
+
+
+
+from django.db.models.signals import post_save, post_delete
+from django.dispatch import receiver
+#from .models import ShipmentLineItem
+#from inventory.models import Product
+
+@receiver(post_save, sender=ShipmentLineItem)
+def update_product_quantity_on_add(sender, instance, created, **kwargs):
+    if created:
+        instance.product.quantity += instance.quantity
+        instance.product.save()
+
+@receiver(post_delete, sender=ShipmentLineItem)
+def update_product_quantity_on_delete(sender, instance, **kwargs):
+    instance.product.quantity -= instance.quantity
+    instance.product.save()
+

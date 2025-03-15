@@ -22,6 +22,12 @@ urlpatterns = ([
     path('admin/', admin.site.urls),
     path('home/',include('home.urls')),
     path('inventory/',include('inventory.urls')),
+    path('shipments/', include('shipments.urls')),
+    path('dashboard/',include('dashboard.urls')),
+    path('orders/', include('orders.urls')),
+
 ]+ static(settings.STATIC_URL,document_root= settings.STATIC_ROOT)
 + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 )
+    
+
