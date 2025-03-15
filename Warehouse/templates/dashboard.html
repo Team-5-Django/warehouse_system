@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-2 border py-2">
+    <h1 style="color:#f1ae92;">Dashboard</h1>
+    <p>Welcome to the dashboard</p>
+    <div class="row my-1">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Total Products</h5>
+                    <div class="d-flex justify-content-between">
+                        <p class="card-text">{{products|length}}</p>
+                        <a href="#" class="btn btn-primary">View</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title
+                    ">Total Suppliers</h5>
+                    <div class="d-flex justify-content-between">
+                        <p class="card-text">??</p>
+                        <a href="#" class="btn btn-primary">View</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title
+                    ">Total Shipment Orders</h5>
+                    <div class="d-flex justify-content-between">
+                        <p class="card-text">{{shipments|length}}</p>
+                        <a href="#" class="btn btn-primary">View</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row my-2">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title
+                        ">Total Sales Orders</h5>
+                        <div class="d-flex justify-content-between">
+                            <p class="card-text">{{orders|length}}</p>
+                            <a href="#" class="btn btn-primary">View</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title
+                        ">Total Customers</h5>
+                        <div class="d-flex justify-content-between">
+                            <p class="card-text">??</p>
+                            <a href="#" class="btn btn-primary">View</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title
+                        ">Total Employees</h5>
+                        <div class="d-flex justify-content-between">
+                            <p class="card-text">{{users|length}}</p>
+                            <a href="#" class="btn btn-primary">View</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>                               
+</div>
+{% endblock %}
