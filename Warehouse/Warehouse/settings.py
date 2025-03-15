@@ -41,10 +41,8 @@ INSTALLED_APPS = [
     'users',
     'inventory',
     'shipments',
-
-
-
-
+    'orders',
+    'dashboard',
 ]
 
 MIDDLEWARE = [
@@ -137,5 +135,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
+
 
 AUTH_USER_MODEL = 'users.User'
