@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Order Details: {{ order.reference }}</h2>
+<p>Supermarket: {{ order.supermarket }}</p>
+<p>Status: {{ order.status }}</p>
+<p>Created At: {{ order.created_at }}</p>
+<h3>Line Items</h3>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in order.line_items.all %}
+        <tr>
+            <td>{{ item.product.name }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>{{ item.price }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<a href="{% url 'order_list' %}" class="btn btn-secondary">Back to Orders</a>
+{% endblock %}
