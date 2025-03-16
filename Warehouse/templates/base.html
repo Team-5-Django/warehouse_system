@@ -32,10 +32,45 @@
             {% endblock %}
         </div>
     </div>
+
     <script>
-        function toggleSidebar() {
-            document.getElementById("sidebar").classList.toggle("collapsed");
+    
+
+    function toggleSidebar() {
+    let sidebar = document.getElementById("sidebar");
+    sidebar.classList.toggle("collapsed");
+
+  
+    let dropdowns = document.querySelectorAll(".dropdown-content");
+    dropdowns.forEach(dropdown => {
+        if (sidebar.classList.contains("collapsed")) {
+            dropdown.style.display = "none";
+        } else {
+            dropdown.style.display = ""; 
         }
+    });
+}
+
+function toggleDropdown(event) {
+    event.preventDefault();
+    let parent = event.currentTarget.parentElement;
+    
+
+    if (!document.getElementById("sidebar").classList.contains("collapsed")) {
+        parent.classList.toggle("active");
+    }
+}
+
+    
+
+
+
+
+
+
+
+
+
     </script>
 
     <!-- Bootstrap Js -->
