@@ -79,4 +79,37 @@
             </div>
         </div>                               
 </div>
+<canvas id="productChart" width="400" height="200"></canvas>
+{{ products_count|json_script:"products-data" }}
+    <script>
+        // Retrieve the serialized products data
+    const products = JSON.parse(document.getElementById('products-data').textContent);
+    console.log(products);
+    const productNames = products.map(product => product[0]);
+    const productQuantities = products.map(product => product[1]);
+
+    console.log(productNames);
+    console.log(productQuantities);
+    const ctx = document.getElementById('productChart').getContext('2d');
+    const productChart = new Chart(ctx, {
+        type: 'bar', 
+        data: {
+            labels: productNames,
+            datasets: [{
+                label: 'Quantity',
+                data: productQuantities,
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
 {% endblock %}
