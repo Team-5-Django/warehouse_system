@@ -1,18 +1,20 @@
-<div class="sidebar" id="sidebar">
-    <button class="toggle-btn mb-2" onclick="toggleSidebar()">
+<div class="sidebar min-vh-100 " id="sidebar">
+    <button class="toggle-btn mb-2 text-dark " onclick="toggleSidebar()">
         <i class="fas fa-bars text-dark"></i>
     </button>
-    <a href="{% url 'dashboard' %}">
-        <i class="fas fa-tachometer-alt"></i> <span>Dashboard</span>
-    </a>
-
-    <a href="#"><i class="fas fa-box"></i> <span>Inventory</span></a>
+    <a href="{% url 'dashboard' %}"><i class="fas fa-tachometer-alt"></i> <span>Dashboard</span></a>
+    <div class="dropdown">
+        <a href="#" class="dropdown-btn" onclick="toggleDropdown(event)">
+            <i class="fas fa-box"></i> <span>Inventory</span>
+            <i class="fas fa-chevron-down dropdown-icon"></i>
+        </a>
+        <div class="dropdown-content">
+            <a href="{% url 'products'%}">Products</a>
+            <a href="{% url 'categoryproducts' %}">Category</a>
+        </div>
+    </div>
     <a href="#"><i class="fas fa-truck"></i> <span>Suppliers</span></a>
-
-    <a href="{% url 'order_list' %}">
-        <i class="fas fa-shopping-cart"></i> <span>Sales Orders</span>
-    </a>
-    
+    <a href="{% url 'order_list' %}"><i class="fas fa-shopping-cart"></i> <span>Sales Orders</span></a>
     <a href="#"><i class="fas fa-file-invoice"></i> <span>Purchase Orders</span></a>
 
     {% if user.is_staff %}

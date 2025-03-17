@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>ProductDetails</title>
+{% endblock %}
+
+{% block content %}
+
+    <div class="container py-5">
+        <h2 class="text-center mb-4">{{ product.name }}</h2>
+        <div class="d-flex justify-content-end">
+            <a href="{% url 'update_product' product.id %}" class="btn btn-dark btn-sm me-3 text-white px-3 py-1 rounded-pill">
+                Update this Product
+            </a>
+            <a href="{% url 'delete_product' product.id %}" class="btn btn-dark btn-sm me-3 text-white px-3 py-1 rounded-pill">
+                Delete Product
+            </a>
+        </div>
+
+        <div class="row d-flex flex-wrap justify-content-center">
+        
+            <div class="col-md-4 text-center">
+                <img src="{{ product.thumbnail }}" class="img-fluid shadow" 
+                     alt="Product Image" style="max-width: 300px; height: auto; border-radius: 0; border: 2px solid #ddd;"> 
+            </div>
+        
+            <div class="col-md-4 mt-5 ms-3">
+                <div class="card shadow p-3" style="width: 14rem; height: auto; border-radius: 0; border: 2px solid #ddd; box-shadow: 6px 6px 15px rgba(0, 0, 0, 0.2);"> 
+                    <div class="card-body">
+                        <h5 class="card-title text-dark">{{ product.name }}</h5>
+                        <p class="card-text" style="font-size: 0.9rem;">{{ product.description }}</p>
+                        <p class="card-text" style="font-size: 0.9rem;">Quantity: {{ product.quantity }}</p>
+                        <p class="card-text" style="font-size: 0.9rem;">SKU: {{ product.sku }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

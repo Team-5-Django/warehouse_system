@@ -18,24 +18,57 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <!-- sweet alert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 </head>
 
 <body>
     {% include 'components/sidebar.html' %}
     <div class="content">
         {% include 'components/navbar.html' %}
-        <div class="container mt-2 border py-2">
-            {% block content %}
-                <h1 style="color:#f1ae92;">Home Page</h1>
-                <p>Welcome to the Home Page</p>
-                <p>here you will write your block content</p>
-            {% endblock %}
+        <div class="container min-vh-100 mt-2 border py-2">
+            {% block content %}{% endblock %}
         </div>
     </div>
     <script>
-        function toggleSidebar() {
-            document.getElementById("sidebar").classList.toggle("collapsed");
+    
+
+    function toggleSidebar() {
+    let sidebar = document.getElementById("sidebar");
+    sidebar.classList.toggle("collapsed");
+
+  
+    let dropdowns = document.querySelectorAll(".dropdown-content");
+    dropdowns.forEach(dropdown => {
+        if (sidebar.classList.contains("collapsed")) {
+            dropdown.style.display = "none";
+        } else {
+            dropdown.style.display = ""; 
         }
+    });
+}
+
+function toggleDropdown(event) {
+    event.preventDefault();
+    let parent = event.currentTarget.parentElement;
+    
+
+    if (!document.getElementById("sidebar").classList.contains("collapsed")) {
+        parent.classList.toggle("active");
+    }
+}
+
+    
+
+
+
+
+
+
+
+
+
     </script>
 
     <!-- Bootstrap Js -->

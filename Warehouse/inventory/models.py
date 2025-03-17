@@ -3,6 +3,11 @@ from django.db import models
 class Category(models.Model):
     name = models.CharField(max_length=50)
     description = models.TextField(blank=True)
+    thumbnail = models.URLField(null=True, blank=True)
+    
+    
+    def __str__(self):
+        return f"{self.name}"
 
 class Product(models.Model):
     name = models.CharField(max_length=100)
@@ -11,6 +16,7 @@ class Product(models.Model):
     quantity = models.PositiveIntegerField(default=0)
     critical_quantity = models.PositiveIntegerField(default=10)
     category=models.ForeignKey(Category, on_delete=models.DO_NOTHING)
+    thumbnail = models.URLField(null=True, blank=True)
 
     def __str__(self):
         return f"{self.name} ({self.sku})"
