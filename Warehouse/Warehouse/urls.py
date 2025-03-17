@@ -21,6 +21,7 @@ from django.conf import settings
 urlpatterns = ([
     path('admin/', admin.site.urls),
     path('home/',include('home.urls')),
+    path('users/', include('users.urls'))
     path('inventory/',include('inventory.urls')),
     path('shipments/', include('shipments.urls')),
     path('dashboard/',include('dashboard.urls')),

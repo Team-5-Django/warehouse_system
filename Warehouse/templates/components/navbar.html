@@ -1,7 +1,14 @@
 <nav class="navbar d-flex justify-content-end">
     <div class="user-info">
-        <a class="nav-link active" href="#"><i class="fas fa-home"></i> Home</a>
-        <a class="nav-link" href="#"><i class="fas fa-chart-bar"></i> Reports</a>
-        <a class="nav-link" href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        <a class="nav-link active" href="{% url 'home' %}"><i class="fas fa-home"></i> Home</a>
+
+        {% if request.user.is_authenticated %}
+            {% if request.user.is_manager %}
+                <a class="nav-link" href="{% url 'adduser' %}"><i class="fas fa-user-plus"></i> Add User</a>
+            {% endif %}
+                <a class="nav-link" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            {% else %}
+                <a class="nav-link" href="{% url 'login' %}"><i class="fas fa-sign-in-alt"></i> Login</a>
+        {% endif %}
     </div>
 </nav>
