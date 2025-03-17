@@ -10,6 +10,5 @@ admin.site.register(User, UserAdmin)
 admin.site.register(Order)
 admin.site.register(Shipment)       
 admin.site.register(ShipmentLineItem)
-admin.site.register(Supermarket)
 admin.site.register(Factory)
 
