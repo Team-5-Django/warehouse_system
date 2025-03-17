@@ -53,3 +53,4 @@ class DashboardView(TemplateView):
         context['products_count'] = list(products)
 
         return context
+
