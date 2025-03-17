@@ -63,6 +63,9 @@
                     </div>
                     {% endfor %}
                 </div>
+                <div class="row g-3 mb-3 formset-row" id="empty-form" style="display: none;">
+                    {{ formset.empty_form }}
+                </div>
                 <button type="button" class="btn btn-sm btn-outline-secondary mt-3" id="add-form">
                     <i class="fas fa-plus"></i> Add Product
                 </button>
