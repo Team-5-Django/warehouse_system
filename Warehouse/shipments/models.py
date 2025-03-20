@@ -10,7 +10,7 @@ class Shipment(models.Model):
     ]
 
     reference = models.CharField(max_length=100, unique=True)
-    factory = models.ForeignKey('Factory', on_delete=models.SET_NULL, null=True)
+    factory = models.ForeignKey('Factory', on_delete=models.SET_NULL, null=True, related_name='shipments')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
@@ -32,6 +32,11 @@ class Factory(models.Model):
 
     def __str__(self):
         return self.name
+    
+    @property
+    def total_shipments(self):
+        return self.shipments.count()
+
 
 class ShipmentLineItem(models.Model):
     shipment = models.ForeignKey(Shipment, on_delete=models.CASCADE, related_name='line_items')
