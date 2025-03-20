@@ -2,25 +2,26 @@ document.addEventListener('DOMContentLoaded', function() {
     const addButton = document.getElementById('add-form');
     const formsetContainer = document.getElementById('formset-container');
     const totalForms = document.getElementById('id_line_items-TOTAL_FORMS');
-    const formRegex = /line_items-(\d+)-/g; // Match line_items-0-, line_items-1-, etc.
+    const emptyForm = document.getElementById('empty-form');
 
     addButton.addEventListener('click', function() {
         const formNum = parseInt(totalForms.value);
-        const newRow = formsetContainer.querySelector('.formset-row').cloneNode(true);
-
-        // Update IDs and names
+        const newRow = emptyForm.cloneNode(true);
+        
+        // Make the new row visible and remove its id to avoid duplicates
+        newRow.style.display = '';
+        newRow.id = '';
+        
+        // Replace __prefix__ with the new form number in field names/IDs
         newRow.innerHTML = newRow.innerHTML.replace(
-            formRegex,
-            `line_items-${formNum}-`
+            /__prefix__/g,
+            formNum
         );
-
-        // Clear input values
-        newRow.querySelectorAll('input, select').forEach(input => {
-            input.value = '';
-            if (input.type === 'checkbox') input.checked = false;
-        });
-
+        
+        // Append the new row to the container
         formsetContainer.appendChild(newRow);
-        totalForms.value = formNum + 1; // Increment form count
+        
+        // Increment the total forms count
+        totalForms.value = formNum + 1;
     });
 });

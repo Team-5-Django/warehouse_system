@@ -1,6 +1,6 @@
 # orders/forms.py
 from django import forms
-from .models import Order, OrderLineItem
+from .models import Order, OrderLineItem, Supermarket
 
 class OrderForm(forms.ModelForm):
     class Meta:
@@ -8,7 +8,7 @@ class OrderForm(forms.ModelForm):
         fields = ['reference', 'supermarket', 'status']
         widgets = {
             'reference': forms.TextInput(attrs={'class': 'form-control'}),
-            'supermarket': forms.TextInput(attrs={'class': 'form-control'}),
+            'supermarket': forms.Select(attrs={'class': 'form-select'}),
             'status': forms.Select(attrs={'class': 'form-select'}),
         }
 
@@ -32,3 +32,8 @@ OrderLineItemFormSet = forms.inlineformset_factory(
         'DELETE': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
     }
 )
+
+class SupermarketForm(forms.ModelForm): 
+    class Meta:
+        model = Supermarket
+        fields = ['name']
