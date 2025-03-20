@@ -205,3 +205,8 @@ font-family: 'Raleway', sans-serif;
 .dropdown.active .dropdown-icon {
   transform: rotate(180deg);
 }
+
+/* static/css/style.css */
+.form-control, .form-select {
+  margin-bottom: 0.5rem;
+}

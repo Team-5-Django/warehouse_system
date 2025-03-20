@@ -22,7 +22,7 @@
                     <h5 class="card-title
                     ">Total Suppliers</h5>
                     <div class="d-flex justify-content-between">
-                        <p class="card-text">??</p>
+                        <p class="card-text">{{factories|length}}</p>
                         <a href="#" class="btn btn-primary">View</a>
                     </div>
                 </div>
@@ -40,26 +40,27 @@
                 </div>
             </div>
         </div>
-        <div class="row my-2">
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title
-                        ">Total Sales Orders</h5>
-                        <div class="d-flex justify-content-between">
-                            <p class="card-text">{{orders|length}}</p>
-                            <a href="#" class="btn btn-primary">View</a>
-                        </div>
+    </div>
+    <div class="row my-2">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title
+                    ">Total Sales Orders</h5>
+                    <div class="d-flex justify-content-between">
+                        <p class="card-text">{{orders|length}}</p>
+                        <a href="#" class="btn btn-primary">View</a>
                     </div>
                 </div>
             </div>
+        </div>
             <div class="col-md-4">
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title
                         ">Total Customers</h5>
                         <div class="d-flex justify-content-between">
-                            <p class="card-text">??</p>
+                            <p class="card-text">{{supermarkets|length}}</p>
                             <a href="#" class="btn btn-primary">View</a>
                         </div>
                     </div>
@@ -77,6 +78,109 @@
                     </div>
                 </div>
             </div>
-        </div>                               
-</div>
+        </div>
+            <div class="row my-2">
+                <div class="col-lg-6">
+                    <canvas  id="productChart" ></canvas>
+                    {{ products_count|json_script:"products-data" }}
+                </div>
+                <div class="col-lg-6">
+                    <canvas  id="factoryChart" ></canvas>
+                    {{ factory_shipment|json_script:"factory-data" }}
+                </div>
+            </div> 
+    <script>
+        // Retrieve the serialized products data
+    const products = JSON.parse(document.getElementById('products-data').textContent);
+    console.log(products);
+    const productNames = products.map(product => product[0]);
+    const productQuantities = products.map(product => product[1]);
+
+    console.log(productNames);
+    console.log(productQuantities);
+    const ctx = document.getElementById('productChart').getContext('2d');
+    const productChart = new Chart(ctx, {
+        type: 'bar', 
+        data: {
+            labels: productNames,
+            datasets: [{
+                title: 'Product Quantities',
+                label: 'Quantity',
+                data: productQuantities,
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1,  // 🟢 Force only integer steps
+                        callback: function(value) {
+                            return Number.isInteger(value) ? value : null;  // 🟢 Show only whole numbers
+                        }
+                    },
+                    title: {
+                        display: true,
+                        text: "Quantity" 
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: "Products" 
+                    }
+                }
+            }
+            }
+    });
+    const factories = JSON.parse(document.getElementById('factory-data').textContent);
+    console.log(factories);
+    const factoryNames = factories.map(factory => factory['name']);
+    const factoryShipment = factories.map(factory => factory['total_shipments']);
+
+    console.log(factoryNames);
+    console.log(factoryShipment);
+    const ctx2 = document.getElementById('factoryChart').getContext('2d');
+    const factoryChart = new Chart(ctx2, {
+        type: 'bar', 
+        data: {
+            labels: factoryNames,
+            datasets: [{
+                label: 'Shipments',
+                data: factoryShipment,
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1,  // 🟢 Force only integer steps
+                        callback: function(value) {
+                            return Number.isInteger(value) ? value : null;  // 🟢 Show only whole numbers
+                        }
+                    },
+                    title: {
+                        display: true,
+                        text: "Total Shipments" 
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: "Factories" 
+                    }
+                }
+            }
+            }
+        });
+</script>
 {% endblock %}
