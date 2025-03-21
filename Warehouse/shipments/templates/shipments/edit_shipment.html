@@ -4,7 +4,7 @@
     <div class="card shadow-sm border rounded p-4 bg-light">
         <h2 class="mb-3 text-center">Edit Shipment: {{ shipment.reference }}</h2>
 
-        <form method="post" class="shipment-form mb-4">
+        <form method="post" id="shipment-form">
             {% csrf_token %}
             <div class="mb-3">
                 {% for field in shipment_form %}
@@ -17,44 +17,120 @@
                     </div>
                 {% endfor %}
             </div>
-            <button type="submit" class="btn btn-success w-100">Save Changes</button>
-        </form>
 
-        <div class="text-center mt-3">
-            <a href="{% url 'shipment_list' %}" class="btn btn-secondary">Back to Shipments</a>
-        </div>
+            <hr>
+
+            <h4 class="mb-3">Add Shipment Items</h4>
+            <div class="row">
+                <div class="col-md-5">
+                    <label class="form-label">Product</label>
+                    <select id="product" class="form-control">
+                        {% for product in products %}
+                            <option value="{{ product.id }}">{{ product.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Quantity</label>
+                    <input type="number" id="quantity" class="form-control" min="1" value="1">
+                </div>
+                <div class="col-md-4 d-flex align-items-end">
+                    <button type="button" id="add-item" class="btn btn-primary w-100">Add Product</button>
+                </div>
+            </div>
+
+            <ul id="shipment-items" class="list-group mt-3">
+                {% if shipment_items %}
+                    {% for item in shipment_items %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            {{ item.product.name }} - <strong>{{ item.quantity }}</strong>
+                            <input type="hidden" name="products[]" value="{{ item.product.id }}">
+                            <input type="hidden" name="quantities[]" value="{{ item.quantity }}">
+                            <button type="button" class="btn btn-danger btn-sm remove-item">Remove</button>
+                        </li>
+                    {% endfor %}
+                {% else %}
+                    <li class="list-group-item text-muted">No products added to this shipment.</li>
+                {% endif %}
+            </ul>
+
+            <hr>
+
+            <div class="text-center">
+                <button type="submit" class="btn btn-success px-4">Save Changes</button>
+                <a href="{% url 'shipment_list' %}" class="btn btn-secondary px-4">Cancel</a>
+            </div>
+        </form>
     </div>
 </div>
 
-<style>
-    body {
-        background-color: #f8f9fa;
-    }
-
-    .card {
-        width: 100%;
-        max-width: 100%;
-        border-radius: 12px;
-    }
-
-    .btn {
-        transition: all 0.3s ease-in-out;
-    }
-
-    .btn:hover {
-        transform: scale(1.05);
-    }
-</style>
 
 <script>
-    window.onload = () => {
-        document.querySelectorAll('.shipment-form input, .shipment-form select, .shipment-form textarea').forEach(inputElement => {
-            inputElement.classList.add("form-control");
-        });
+    document.addEventListener("DOMContentLoaded", function() {
+    let addItemButton = document.getElementById("add-item");
+    let productSelect = document.getElementById("product");
+    let quantityInput = document.getElementById("quantity");
+    let shipmentItemsList = document.getElementById("shipment-items");
 
-        document.querySelectorAll('.shipment-form label').forEach(labelElement => {
-            labelElement.classList.add("form-label");
+    addItemButton.addEventListener("click", function() {
+        let productId = productSelect.value;
+        let productName = productSelect.options[productSelect.selectedIndex].text;
+        let quantity = parseInt(quantityInput.value);
+
+        if (!productId || quantity < 1) {
+            alert("Please select a valid product and quantity.");
+            return;
+        }
+
+        // إزالة الرسالة الافتراضية "No products added"
+        let emptyMessage = document.querySelector("#shipment-items .text-muted");
+        if (emptyMessage) {
+            emptyMessage.remove();
+        }
+
+        // التحقق مما إذا كان المنتج موجودًا بالفعل في القائمة
+        let existingItem = [...shipmentItemsList.children].find(item =>
+            item.querySelector("input[name='products[]']").value === productId
+        );
+
+        if (existingItem) {
+            let existingQuantityInput = existingItem.querySelector("input[name='quantities[]']");
+            let newQuantity = parseInt(existingQuantityInput.value) + quantity;
+            existingQuantityInput.value = newQuantity;
+            existingItem.querySelector("strong").textContent = newQuantity;
+        } else {
+            let listItem = document.createElement("li");
+            listItem.className = "list-group-item d-flex justify-content-between align-items-center";
+            listItem.innerHTML = `
+                ${productName} - <strong>${quantity}</strong>
+                <input type="hidden" name="products[]" value="${productId}">
+                <input type="hidden" name="quantities[]" value="${quantity}">
+                <button type="button" class="btn btn-danger btn-sm remove-item">Remove</button>
+            `;
+
+            shipmentItemsList.appendChild(listItem);
+
+            listItem.querySelector(".remove-item").addEventListener("click", function() {
+                listItem.remove();
+                if (shipmentItemsList.children.length === 0) {
+                    shipmentItemsList.innerHTML = `<li class="list-group-item text-muted">No products added to this shipment.</li>`;
+                }
+            });
+        }
+
+        quantityInput.value = "1";
+    });
+
+    // تفعيل زر الحذف للعناصر الموجودة مسبقًا
+    document.querySelectorAll(".remove-item").forEach(button => {
+        button.addEventListener("click", function() {
+            this.parentElement.remove();
+            if (shipmentItemsList.children.length === 0) {
+                shipmentItemsList.innerHTML = `<li class="list-group-item text-muted">No products added to this shipment.</li>`;
+            }
         });
-    }
+    });
+});
 </script>
+
 {% endblock %}

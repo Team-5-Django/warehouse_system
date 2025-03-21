@@ -2,27 +2,55 @@
 {% block content %}
 <div class="container-fluid mt-4">
     <div class="card shadow-sm border rounded p-4 bg-light">
-        <h2 class="mb-3 text-center">Add New Shipment</h2>
+        <h2 class="mb-3 text-center">Create Shipment</h2>
 
-        <form method="post" class="shipment-form mb-3">
-            {% csrf_token %}
+       <form method="post" id="shipment-form">
+    {% csrf_token %}
+
+    <div class="mb-3">
+        {% for field in shipment_form %}
             <div class="mb-3">
-                {% for field in shipment_form %}
-                    <div class="mb-3">
-                        <label class="form-label">{{ field.label }}</label>
-                        {{ field }}
-                        {% for error in field.errors %}
-                            <div class="text-danger small">{{ error }}</div>
-                        {% endfor %}
-                    </div>
+                <label class="form-label">{{ field.label }}</label>
+                {{ field }}
+                {% for error in field.errors %}
+                    <div class="text-danger small">{{ error }}</div>
                 {% endfor %}
             </div>
+        {% endfor %}
+    </div>
 
-            <div class="text-center">
-                <button type="submit" class="btn btn-success px-4">Save Shipment</button>
-                <a href="{% url 'shipment_list' %}" class="btn btn-secondary px-4">Back to Shipments</a>
-            </div>
-        </form>
+    <hr>
+
+    <h4 class="mb-3">Add Shipment Items</h4>
+    <div class="row">
+        <div class="col-md-5">
+            <label class="form-label">Product</label>
+            <select id="productSelect" class="form-control">
+                <option value="">-- Select Product --</option>
+                {% for product in products %}
+                    <option value="{{ product.id }}" data-factory="{{ product.factory.id }}">{{ product.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-3">
+            <label class="form-label">Quantity</label>
+            <input type="number" id="quantity" class="form-control" min="1" value="1">
+        </div>
+        <div class="col-md-4 d-flex align-items-end">
+            <button type="button" id="add-item" class="btn btn-primary w-100">Add Product</button>
+        </div>
+    </div>
+
+    <ul id="shipment-items" class="list-group mt-3"></ul>
+
+    <hr>
+
+    <div class="text-center">
+        <button type="submit" class="btn btn-success px-4">Save Shipment</button>
+        <a href="{% url 'shipment_list' %}" class="btn btn-secondary px-4">Cancel</a>
+    </div>
+</form>
+
     </div>
 </div>
 
@@ -47,14 +75,61 @@
 </style>
 
 <script>
-    window.onload = () => {
-        document.querySelectorAll('.shipment-form input, .shipment-form select, .shipment-form textarea').forEach(inputElement => {
-            inputElement.classList.add("form-control")
+    document.addEventListener("DOMContentLoaded", function() {
+    let addItemButton = document.getElementById("add-item");
+    let productSelect = document.getElementById("productSelect");
+    let quantityInput = document.getElementById("quantity");
+    let shipmentItemsList = document.getElementById("shipment-items");
+    let shipmentForm = document.getElementById("shipment-form");
+
+    addItemButton.addEventListener("click", function() {
+        let productId = productSelect.value;
+        let productName = productSelect.options[productSelect.selectedIndex].text;
+        let quantity = quantityInput.value;
+
+        if (!productId || quantity < 1) {
+            alert("Please select a valid product and quantity.");
+            return;
+        }
+
+        let listItem = document.createElement("li");
+        listItem.className = "list-group-item d-flex justify-content-between align-items-center";
+        listItem.innerHTML = `
+            ${productName} - <strong>${quantity}</strong>
+            <input type="hidden" name="products[]" value="${productId}">
+            <input type="hidden" name="quantities[]" value="${quantity}">
+            <button type="button" class="btn btn-danger btn-sm remove-item">Remove</button>
+        `;
+
+        shipmentItemsList.appendChild(listItem);
+
+        quantityInput.value = "1";
+
+        listItem.querySelector(".remove-item").addEventListener("click", function() {
+            listItem.remove();
+        });
+    });
+
+
+});
+
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const factorySelect = document.getElementById("factorySelect");
+    const productSelect = document.getElementById("productSelect");
+
+    factorySelect.addEventListener("change", function () {
+        const selectedFactory = factorySelect.value;
+
+        Array.from(productSelect.options).forEach(option => {
+            if (option.value === "") return;
+            const productFactory = option.getAttribute("data-factory");
+            option.style.display = (selectedFactory === "" || productFactory === selectedFactory) ? "block" : "none";
         });
 
-        document.querySelectorAll('.shipment-form label').forEach(labelElement => {
-            labelElement.classList.add("form-label")
-        });
-    }
+        productSelect.selectedIndex = 0;
+    });
+});
 </script>
 {% endblock %}
