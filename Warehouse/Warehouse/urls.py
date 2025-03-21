@@ -20,14 +20,11 @@ from django.conf.urls.static import static
 from django.conf import settings
 urlpatterns = ([
     path('admin/', admin.site.urls),
-<<<<<<< HEAD
     path('home/',include('home.urls')),
     path('shipments/', include('shipments.urls')),
     path('dashboard/',include('dashboard.urls')),
     path('orders/', include('orders.urls')),
-=======
     path('',include('home.urls')),
->>>>>>> 0c114ecb3e08339f31c0d9b66e0f48a43c102b36
     path('users/', include('users.urls')),
     path('inventory/',include('inventory.urls')),
     path('shipments/', include('shipments.urls')),
@@ -36,8 +33,4 @@ urlpatterns = ([
 ]+ static(settings.STATIC_URL,document_root= settings.STATIC_ROOT)
 + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 )
-    
-<<<<<<< HEAD
-=======
 
->>>>>>> 0c114ecb3e08339f31c0d9b66e0f48a43c102b36

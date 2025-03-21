@@ -104,7 +104,7 @@ def edit_shipment(request, shipment_id):
 def confirm_shipment(request, shipment_id):
     shipment = get_object_or_404(Shipment, id=shipment_id)
 
-    if not request.user.is_manager():
+    if not request.user.is_manager:
         messages.error(request, "Only managers can confirm shipments.")
         return redirect('shipment_list')
 

@@ -48,19 +48,4 @@ class ShipmentLineItem(models.Model):
 
 
 
-from django.db.models.signals import post_save, post_delete
-from django.dispatch import receiver
-#from .models import ShipmentLineItem
-#from inventory.models import Product
-
-@receiver(post_save, sender=ShipmentLineItem)
-def update_product_quantity_on_add(sender, instance, created, **kwargs):
-    if created:
-        instance.product.quantity += instance.quantity
-        instance.product.save()
-
-@receiver(post_delete, sender=ShipmentLineItem)
-def update_product_quantity_on_delete(sender, instance, **kwargs):
-    instance.product.quantity -= instance.quantity
-    instance.product.save()
 
