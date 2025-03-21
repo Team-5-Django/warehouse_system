@@ -13,13 +13,13 @@
             <a href="{% url 'categoryproducts' %}">Category</a>
         </div>
     </div>
-    <a href="#"><i class="fas fa-truck"></i> <span>Suppliers</span></a>
+    <a href="{% url 'shipment_list' %}"><i class="fas fa-truck"></i> <span>Suppliers</span></a>
     <a href="{% url 'order_list' %}"><i class="fas fa-shopping-cart"></i> <span>Sales Orders</span></a>
     <a href="#"><i class="fas fa-file-invoice"></i> <span>Purchase Orders</span></a>
 
     {% if user.is_staff %}
     <a href="{% url 'approve_users' %}">
-        <i class="fas fa-user-clock"></i> <span>Pending Users</span>
+        <i class="fas fa-user-clock"></i> <span>Users Management</span>
     </a>
     {% endif %}
 </div>

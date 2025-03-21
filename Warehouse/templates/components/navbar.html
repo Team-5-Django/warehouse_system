@@ -1,14 +1,33 @@
 <nav class="navbar d-flex justify-content-end">
     <div class="user-info">
-        <a class="nav-link active" href="{% url 'home' %}"><i class="fas fa-home"></i> Home</a>
+        <a class="nav-link active" href="{% url 'dashboard' %}"><i class="fas fa-home"></i> Home</a>
 
         {% if request.user.is_authenticated %}
-            {% if request.user.is_manager %}
-                <a class="nav-link" href="{% url 'adduser' %}"><i class="fas fa-user-plus"></i> Add User</a>
-            {% endif %}
-                <a class="nav-link" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a>
-            {% else %}
-                <a class="nav-link" href="{% url 'login' %}"><i class="fas fa-sign-in-alt"></i> Login</a>
+        {% if request.user.is_manager %}
+        <a class="nav-link" href="{% url 'adduser' %}"><i class="fas fa-user-plus"></i> Add User</a>
+        {% endif %}
+        <a class="nav-link" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        <a href="{% url 'edit_profile' %}">
+            <img src="https://i.pinimg.com/736x/{% if request.user.is_manager %}8b/16/7a/8b167af653c2399dd93b952a48740620.jpg{% else %}45/a2/78/45a2789139803b4d756d1d680d40f670.jpg{% endif %}"
+                alt="Profile" class="user-img">
+        </a>
+        {% else %}
+        <a class="nav-link" href="{% url 'login' %}"><i class="fas fa-sign-in-alt"></i> Login</a>
         {% endif %}
     </div>
 </nav>
+
+<style>
+    .user-img {
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        margin-left: 10px;
+        border: 2px solid #fff;
+        transition: transform 0.3s ease;
+    }
+
+    .user-img:hover {
+        transform: scale(1.1);
+    }
+</style>
