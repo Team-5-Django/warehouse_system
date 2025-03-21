@@ -38,21 +38,23 @@ class DashboardView(TemplateView):
         categories = Category.objects.all()
         orders = Order.objects.all()    
         supermarkets = Supermarket.objects.all()
+        factories = Factory.objects.all()
         shipments = Shipment.objects.all()
         products_count = Product.objects.values_list("name", "quantity")
-        factories = Factory.objects.annotate(total_shipments=Count('shipments')).values('name', 'total_shipments')
-        # print(factories)
-        # for data in factories:
-        #     print(f"factory : {data["name"]} shipment :  {data["total_shipments"]} ")
+        factory_shipment = Factory.objects.annotate(total_shipments=Count('shipments')).values('name', 'total_shipments')
+        supermarket_order = Supermarket.objects.annotate(total_orders=Count('orders')).values('name', 'total_orders')
+
         context.update({
             'users': users,
             'products': products,
             'categories': categories,
             'orders': orders,
+            'factories':factories,
             'supermarkets': supermarkets,
             'shipments': shipments,
             'products_count': list(products_count),
-            "factory_shipment" : list(factories),
+            "factory_shipment" : list(factory_shipment),
+            "supermarket_order" : list(supermarket_order),
         })
 
         return context
