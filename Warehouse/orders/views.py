@@ -1,11 +1,12 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.views.generic import ListView, DetailView, CreateView, UpdateView
-from .models import Order, OrderLineItem
-from .forms import OrderForm, OrderLineItemFormSet
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from .models import Order, OrderLineItem, Supermarket
+from .forms import OrderForm, OrderLineItemFormSet, SupermarketForm
 from .filters import OrderFilter
 from django.db.models import Q
 from .models import Order
 from .transactions import process_order
+from django.urls import reverse_lazy
 
 # List all orders
 class OrderListView(ListView):
@@ -152,3 +153,26 @@ def cancel_order_view(request, pk):
             'message': f'Error cancelling order: {str(e)}',
         }
         return render(request, 'orders/order_confirmation.html', context)
+    
+
+class SupermarketListView(ListView):
+    model = Supermarket
+    template_name = 'orders/supermarket_list.html'
+    context_object_name = 'supermarkets'
+
+class SupermarketCreateView(CreateView):
+    model = Supermarket
+    form_class = SupermarketForm
+    template_name = 'orders/supermarket_form.html'
+    success_url = reverse_lazy('supermarket_list')
+
+class SupermarketUpdateView(UpdateView):
+    model = Supermarket
+    form_class = SupermarketForm
+    template_name = 'orders/supermarket_form.html'
+    success_url = reverse_lazy('supermarket_list')
+
+class SupermarketDeleteView(DeleteView):
+    model = Supermarket
+    template_name = 'orders/supermarket_confirm_delete.html'
+    success_url = reverse_lazy('supermarket_list')
