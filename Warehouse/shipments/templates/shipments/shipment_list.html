@@ -4,15 +4,23 @@
         <h2 class="mb-4 text-center">Shipments</h2>
 
         <div class="row mb-3">
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <input type="text" id="searchInput" class="form-control" placeholder="Search shipments...">
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <select id="statusFilter" class="form-control">
                     <option value="">All Statuses</option>
                     <option value="pending">Pending</option>
-                    <option value="shipped">Shipped</option>
+                    <option value="shipped">Confirmed</option>
                     <option value="delivered">Delivered</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <select id="factoryFilter" class="form-control">
+                    <option value="">All Factories</option>
+                    {% for factory in factories %}
+                        <option value="{{ factory.name|lower }}">{{ factory.name }}</option>
+                    {% endfor %}
                 </select>
             </div>
             <div class="col-md-2">
@@ -26,7 +34,7 @@
 
         <div class="row" id="shipmentList">
             {% for shipment in shipments %}
-                <div class="col-12 mb-2 shipment-item" data-status="{{ shipment.status|lower }}">
+                <div class="col-12 mb-2 shipment-item" data-status="{{ shipment.status|lower }}" data-factory="{{ shipment.factory.name|lower }}">
                     <div class="card shadow-sm p-3 border rounded">
                         <div class="card-body d-flex justify-content-between align-items-center">
                             <div>
@@ -36,6 +44,7 @@
                                     </a>
                                 </h5>
                                 <p class="mb-0 text-muted"><strong>Status:</strong> <span class="shipment-status">{{ shipment.status }}</span></p>
+                                <p class="mb-0 text-muted"><strong>Factory:</strong> {{ shipment.factory.name }}</p>
                             </div>
                         </div>
                     </div>
@@ -46,40 +55,42 @@
         </div>
     </div>
 
-
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const searchInput = document.getElementById("searchInput");
         const statusFilter = document.getElementById("statusFilter");
+        const factoryFilter = document.getElementById("factoryFilter");
         const clearFilterBtn = document.getElementById("clearFilter");
         const shipments = document.querySelectorAll(".shipment-item");
 
         function filterShipments() {
             const searchValue = searchInput.value.toLowerCase();
             const statusValue = statusFilter.value.toLowerCase();
+            const factoryValue = factoryFilter.value.toLowerCase();
 
             shipments.forEach(shipment => {
                 const reference = shipment.querySelector("h5 a").innerText.toLowerCase();
                 const status = shipment.getAttribute("data-status") || "";
+                const factory = shipment.getAttribute("data-factory") || "";
 
                 const matchesSearch = reference.includes(searchValue);
                 const matchesStatus = statusValue === "" || status === statusValue;
+                const matchesFactory = factoryValue === "" || factory === factoryValue;
 
-                shipment.style.display = (matchesSearch && matchesStatus) ? "block" : "none";
+                shipment.style.display = (matchesSearch && matchesStatus && matchesFactory) ? "block" : "none";
             });
         }
 
         searchInput.addEventListener("input", filterShipments);
         statusFilter.addEventListener("change", filterShipments);
+        factoryFilter.addEventListener("change", filterShipments);
         clearFilterBtn.addEventListener("click", () => {
             searchInput.value = "";
             statusFilter.value = "";
+            factoryFilter.value = "";
             filterShipments();
         });
     });
-
-
-
 </script>
 
 {% endblock %}

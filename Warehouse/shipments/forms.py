@@ -10,10 +10,9 @@ class ShipmentForm(forms.ModelForm):
     )
     class Meta:
         model = Shipment
-        fields = ['reference', 'factory', 'status']
+        fields = ['reference', 'factory']
         widgets = {
             'reference': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter reference'}),
-            'status': forms.Select(attrs={'class': 'form-control'}),
         }
 
 

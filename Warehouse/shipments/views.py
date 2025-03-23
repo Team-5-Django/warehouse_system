@@ -13,8 +13,12 @@ from .transactions import mark_shipment_as_delivered
 @login_required
 def shipment_list(request):
     shipments = Shipment.objects.select_related('factory', 'created_by').all()
-    return render(request, 'shipments/shipment_list.html', {'shipments': shipments})
+    factories = Factory.objects.all()
 
+    return render(request, 'shipments/shipment_list.html', {
+        'shipments': shipments,
+        'factories': factories
+    })
 
 @login_required
 def shipment_detail(request, shipment_id):
@@ -39,14 +43,6 @@ def add_shipment(request):
 
                 product_ids = request.POST.getlist("products[]")
                 quantities = request.POST.getlist("quantities[]")
-
-                if not product_ids or not quantities:
-                    messages.error(request, "Please add at least one product to the shipment.")
-                    return render(request, "shipments/shipment_form.html", {
-                        "shipment_form": shipment_form,
-                        "products": Product.objects.all(),
-                        "factories": Factory.objects.all(),
-                    })
 
                 for product_id, quantity in zip(product_ids, quantities):
                     ShipmentLineItem.objects.create(
