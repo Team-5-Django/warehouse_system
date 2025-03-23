@@ -2,106 +2,189 @@
 {% load static %}
 
 {% block content %}
-<div class="container mt-4">
-    <h2 class="mb-4">{% if object %}Edit Order{% else %}Create New Order{% endif %}</h2>
+<div class="container-fluid mt-4">
+    <div class="card shadow-sm border rounded p-4 bg-light">
+        <h2 class="mb-3 text-center">{% if object %}Edit Order{% else %}Create New Order{% endif %}</h2>
 
-    <form method="post" class="needs-validation" novalidate>
-        {% csrf_token %}
-        
-        <!-- Main Order Details -->
-        <div class="card mb-4">
-            <div class="card-header bg-primary text-white">
-                Order Information
-            </div>
-            <div class="card-body">
-                <div class="row g-3">
-                    <div class="col-md-4">
-                        <label for="{{ form.supermarket.id_for_label }}" class="form-label">Supermarket</label>
-                        {{ form.supermarket }}
-                    </div>
-                    {% if user.is_manager %}
-                    <div class="col-md-4">
-                        <label for="{{ form.status.id_for_label }}" class="form-label">Status</label>
-                        {{ form.status }}
-                    </div>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
+        <form method="post" id="order-form" class="needs-validation" novalidate>
+            {% csrf_token %}
 
-        <!-- Line Items Section -->
-        <div class="card mb-4">
-            <div class="card-header bg-success text-white">
-                Products
+            <div class="mb-3">
+                <label class="form-label">Supermarket</label>
+                {{ form.supermarket }}
+                {% if user.is_manager %}
+                    <label class="form-label mt-3">Status</label>
+                    {{ form.status }}
+                {% endif %}
             </div>
-            <div class="card-body">
-                {{ formset.management_form }}
-                <div id="formset-container">
-                    {% for form in formset %}
-                    <div class="row g-3 mb-3 formset-row">
+
+            <hr>
+
+            <h4 class="mb-3">Add Products</h4>
+            {{ formset.management_form }}
+            <div id="formset-container">
+                {% for form in formset %}
+                    <div class="row mb-3 formset-row">
                         <div class="col-md-5">
-                            {{ form.product.label_tag }}
                             {{ form.product }}
                         </div>
                         <div class="col-md-3">
-                            {{ form.quantity.label_tag }}
                             {{ form.quantity }}
                         </div>
-                        <!-- <div class="col-md-4 d-flex align-items-center">
-                            <span class="text-muted ms-3" id="stock-info-{{ forloop.counter }}">
-                                Stock: <span id="stock-value-{{ forloop.counter }}">---</span>
-                            </span>
-                        </div> -->
-                        <div class="col-md-2 d-flex align-items-end">
-                            {% if formset.can_delete %}
-                            {{ form.DELETE.label_tag }}
-                            {{ form.DELETE }}
+                        <div class="col-md-4 d-flex align-items-end">
+                            {% if formset.can_delete and forloop.counter0 > 0 %}
+                                <button type="button" class="btn btn-danger btn-sm w-100 remove-item">Remove</button>
                             {% endif %}
                         </div>
                     </div>
-                    {% endfor %}
-                </div>
-                <div class="row g-3 mb-3 formset-row" id="empty-form" style="display: none;">
-                    {{ formset.empty_form }}
-                </div>
-                <button type="button" class="btn btn-sm btn-outline-secondary mt-3" id="add-form">
-                    <i class="fas fa-plus"></i> Add Product
-                </button>
+                {% endfor %}
             </div>
-        </div>
+            <button type="button" class="btn btn-primary mt-3 w-100" id="add-form">Add Product</button>
 
-        <!-- Form Actions -->
-        <div class="d-flex justify-content-between">
-            <button type="submit" class="btn btn-primary">Save Order</button>
-            <a href="{% url 'order_list' %}" class="btn btn-secondary">Cancel</a>
-        </div>
-    </form>
+            <hr>
+
+            <div class="text-center">
+                <button type="submit" class="btn btn-success px-4">Save Order</button>
+                <a href="{% url 'order_list' %}" class="btn btn-secondary px-4">Cancel</a>
+            </div>
+        </form>
+    </div>
 </div>
 
-<!-- JavaScript -->
-<script src="{% static 'js/formset.js' %}"></script>
-<script>
-    // JavaScript to dynamically update stock display
-    function updateStock(selectElement, counter) {
-        const selectedOption = selectElement.options[selectElement.selectedIndex];
-        
-        // Extract stock data from the option's text (e.g., "Stock: 10")
-        const stockText = selectedOption.textContent.match(/Stock: (\d+)/); // Regex to capture stock value
-        const stock = stockText ? stockText[1] : "---"; // Default to "---" if no stock value is found
-
-        // Update the stock display for the corresponding product
-        const stockInfoElement = document.getElementById('id_line_items-0-quantity');
-        if (stockInfoElement) {
-            stockInfoElement.setAttribute('max', stock);
-        }
+<style>
+    body {
+        background-color: #f8f9fa;
     }
 
-    // Attach onchange event listeners to all product dropdowns
-    document.addEventListener("DOMContentLoaded", () => {
-        const productSelects = document.querySelectorAll('select[name$="-product"]'); // Target all product fields
-        productSelects.forEach((selectElement, index) => {
-            selectElement.addEventListener("change", () => updateStock(selectElement, index + 1));
-        });
+    .card {
+        width: 100%;
+        max-width: 100%;
+        border-radius: 12px;
+    }
+
+    .btn {
+        transition: all 0.3s ease-in-out;
+    }
+
+    .btn:hover {
+        transform: scale(1.05);
+    }
+</style>
+
+<script src="{% static 'js/formset.js' %}"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const addFormButton = document.getElementById("add-form");
+    const formsetContainer = document.getElementById("formset-container");
+    const totalForms = document.getElementById("id_line_items-TOTAL_FORMS");
+    const emptyForm = document.querySelector(".formset-row").cloneNode(true);
+
+    // Clean empty form
+    emptyForm.querySelectorAll("input, select").forEach(input => {
+        input.value = "";
+        if (input.name) {
+            input.name = input.name.replace("0", "__prefix__");
+            input.id = input.id.replace("0", "__prefix__");
+        }
     });
+
+    let formCount = parseInt(totalForms.value);
+
+    function isProductAlreadyAdded(productValue, currentSelect = null) {
+        const existingProducts = Array.from(formsetContainer.querySelectorAll('select[name$="-product"]'))
+            .filter(select => select !== currentSelect)
+            .map(select => select.value);
+        return existingProducts.includes(productValue) && productValue !== "";
+    }
+
+    function getProductName(selectElement) {
+        return selectElement.options[selectElement.selectedIndex].text.split(" (")[0];
+    }
+
+    addFormButton.addEventListener("click", function() {
+        const newForm = emptyForm.cloneNode(true);
+        newForm.innerHTML = newForm.innerHTML.replace(/__prefix__/g, formCount);
+        
+        const productSelect = newForm.querySelector('select[name$="-product"]');
+        const initialProductValue = productSelect.value;
+
+        const removeButton = document.createElement("button");
+        removeButton.type = "button";
+        removeButton.className = "btn btn-danger btn-sm w-100 remove-item";
+        removeButton.textContent = "Remove";
+        
+        const buttonCol = newForm.querySelector(".col-md-4");
+        buttonCol.innerHTML = "";
+        buttonCol.appendChild(removeButton);
+
+        formsetContainer.appendChild(newForm);
+        formCount++;
+        totalForms.value = formCount;
+
+        productSelect.addEventListener("change", function() {
+            if (this.value === "") {
+                return; // Don't show alert for empty selection
+            }
+            if (isProductAlreadyAdded(this.value, this)) {
+                alert("This product is already added to the order.");
+                this.value = ""; // Reset to empty selection
+            } else {
+                const productName = getProductName(this);
+                alert(`${productName} has been added to the order.`);
+                updateStock(this);
+            }
+        });
+
+        removeButton.addEventListener("click", function() {
+            newForm.remove();
+            formCount--;
+            totalForms.value = formCount;
+        });
+
+        updateStock(productSelect); // Initial stock update
+    });
+
+    // Handle existing rows
+    document.querySelectorAll(".formset-row").forEach(row => {
+        const productSelect = row.querySelector('select[name$="-product"]');
+        const removeButton = row.querySelector(".remove-item");
+
+        if (removeButton) {
+            removeButton.addEventListener("click", function() {
+                row.remove();
+                formCount--;
+                totalForms.value = formCount;
+            });
+        }
+
+        if (productSelect) {
+            productSelect.addEventListener("change", function() {
+                if (this.value === "") {
+                    return; // Don't show alert for empty selection
+                }
+                if (isProductAlreadyAdded(this.value, this)) {
+                    alert("This product is already added to the order.");
+                    this.value = ""; // Reset to empty selection
+                } else {
+                    const productName = getProductName(this);
+                    alert(`${productName} has been added to the order.`);
+                    updateStock(this);
+                }
+            });
+            updateStock(productSelect); // Initial stock update
+        }
+    });
+
+    // Stock update functionality
+    function updateStock(selectElement) {
+        const selectedOption = selectElement.options[selectElement.selectedIndex];
+        const stockText = selectedOption.textContent.match(/Stock: (\d+)/);
+        const stock = stockText ? stockText[1] : "---";
+        const quantityInput = selectElement.closest(".formset-row").querySelector("[name$='-quantity']");
+        if (quantityInput) {
+            quantityInput.setAttribute("max", stock);
+        }
+    }
+});
 </script>
 {% endblock %}
