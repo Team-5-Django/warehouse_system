@@ -85,7 +85,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'warehouse_db',
-        'USER': 'postgres',
+        'USER': 'warehouse_user',
         'PASSWORD': '123456',
         'HOST': 'localhost',
         'PORT': '5432',

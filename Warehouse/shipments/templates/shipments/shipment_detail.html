@@ -13,7 +13,7 @@
         
                 </div>
                 <div class="col-md-6">
-                    {%if shipment.status == "Pending"%}
+                    {%if user.is_manager and shipment.status == "Pending"%}
                     <a href="{% url 'cancle_shipment' shipment.pk %}" class="btn btn-danger btn-sm">cancel</a>
                     <a href="{% url 'confirm_shipment' shipment.pk %}" class="btn btn-success btn-sm">Confirm</a>
                     {% elif shipment.status == "Confirmed"%}
@@ -45,5 +45,6 @@
             {% endif %}
         </div>
     </div>
+
 {% endblock %}
 
