@@ -27,7 +27,11 @@
             <select id="productSelect" class="form-control">
                 <option value="">-- Select Product --</option>
                 {% for product in products %}
-                    <option value="{{ product.id }}" data-factory="{{ product.factory.id }}">{{ product.name }}</option>
+                    {% if product.id == selected_product.id %}
+                        <option value="{{ product.id }}" data-factory="{{ product.factory.id }}" selected>{{ product.name }}</option>
+                    {% else %}
+                        <option value="{{ product.id }}" data-factory="{{ product.factory.id }}">{{ product.name }}</option>
+                    {% endif %}
                 {% endfor %}
             </select>
         </div>
