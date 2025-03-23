@@ -11,7 +11,7 @@ class Order(models.Model):
         ('Delivered', 'Delivered'),
     ]
 
-    supermarket = models.ForeignKey('Supermarket', on_delete=models.SET_NULL, null=True)
+    supermarket = models.ForeignKey('Supermarket', on_delete=models.SET_NULL, null=True,related_name='orders')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
