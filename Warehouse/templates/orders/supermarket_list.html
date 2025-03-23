@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <h2>Supermarkets</h2>
+    <a href="{% url 'supermarket_create' %}" class="btn btn-primary mb-3">Add Supermarket</a>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for supermarket in supermarkets %}
+            <tr>
+                <td>{{ supermarket.name }}</td>
+                <td>{{ supermarket.address }}</td>
+                <td>{{ supermarket.phone }}</td>
+                <td>{{ supermarket.email }}</td>
+                <td>
+                    <a href="{% url 'supermarket_update' supermarket.pk %}" class="btn btn-warning btn-sm">Edit</a>
+                    <a href="{% url 'supermarket_delete' supermarket.pk %}" class="btn btn-danger btn-sm">Delete</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5">No supermarkets found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

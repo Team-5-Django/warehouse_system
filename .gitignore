@@ -7,8 +7,4 @@ venv/
 .idea/
 
 **/migrations/*
-<<<<<<< HEAD
-!**/migrations/__init__.py
-=======
-!**/migrations/__init__.py
->>>>>>> 4cacdf3d90f5af9d235c6f48b7a08dabd9e2ab77
+

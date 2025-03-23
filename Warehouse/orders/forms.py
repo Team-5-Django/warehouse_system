@@ -54,12 +54,16 @@ OrderLineItemFormSet = forms.inlineformset_factory(
     form=OrderLineItemForm,
     extra=1,
     can_delete=True,
-    widgets={
-        'DELETE': DeleteButtonWidget(),
-    }
+
 )
 
 class SupermarketForm(forms.ModelForm):
     class Meta:
         model = Supermarket
-        fields = ['name']
+        fields = ['name', 'address', 'phone', 'email']
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'address': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
+            'phone': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+        }
