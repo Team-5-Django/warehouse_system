@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 {% block content %}
-<h2>Confirm Delete</h2>
+<h2 class="mt-5">Confirm Delete</h2>
 <p>Are you sure you want to delete the factory "{{ shipment.reference }}"?</p>
 
 <form method="post">
     {% csrf_token %}
-    <button type="submit">Yes, Delete</button>
-    <a href="{% url 'factory_detail' factory.id %}">Cancel</a>
+    <button type="submit" class="btn btn-primary">Yes, Delete</button>
+    <a  class="btn btn-secondary" href="{% url 'factory_detail' factory.id %}">Cancel</a>
 </form>
 {% endblock %}

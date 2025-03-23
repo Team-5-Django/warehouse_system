@@ -21,8 +21,8 @@
                 <td>{{ supermarket.phone }}</td>
                 <td>{{ supermarket.email }}</td>
                 <td>
-                    <a href="{% url 'supermarket_update' supermarket.pk %}" class="btn btn-warning btn-sm">Edit</a>
-                    <a href="{% url 'supermarket_delete' supermarket.pk %}" class="btn btn-danger btn-sm">Delete</a>
+                    <a href="{% url 'supermarket_update' supermarket.pk %}" class="btn btn-primary btn-sm">Edit</a>
+                    <a href="{% url 'supermarket_delete' supermarket.pk %}" class="btn btn-secondary mt-1 btn-sm">Delete</a>
                 </td>
             </tr>
             {% empty %}

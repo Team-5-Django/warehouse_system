@@ -38,8 +38,8 @@ class Supermarket(models.Model):
         return self.name
 
 class OrderLineItem(models.Model):
-    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='line_items')
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='line_items',default=1)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE ,default=1)
     quantity = models.PositiveIntegerField(default=1)
     def __str__(self):
         return f"{self.product.name} x {self.quantity} "
