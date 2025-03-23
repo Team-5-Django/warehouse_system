@@ -17,6 +17,7 @@ from .views import (shipment_list,
 urlpatterns = [
     path('', shipment_list, name='shipment_list'),
     path('<int:shipment_id>/', shipment_detail, name='shipment_detail'),
+    path('add/<int:product_id>', add_shipment, name='add_shipment'),
     path('add/', add_shipment, name='add_shipment'),
     path('<int:shipment_id>/edit/', edit_shipment, name='edit_shipment'),
     path('<int:shipment_id>/confirm/', confirm_shipment, name='confirm_shipment'),
