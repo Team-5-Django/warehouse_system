@@ -5,12 +5,12 @@ from inventory.models import Product
 class Order(models.Model):
     STATUS_CHOICES = [
         ('Pending', 'Pending'),
+        ('cancelled','cancelled'),
         ('Confirmed', 'Confirmed'),
         ('Shipped', 'Shipped'),
         ('Delivered', 'Delivered'),
     ]
 
-    reference = models.CharField(max_length=100, unique=True)
     supermarket = models.ForeignKey('Supermarket', on_delete=models.SET_NULL, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -18,8 +18,16 @@ class Order(models.Model):
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Pending')
 
     def __str__(self):
-        return f"{self.reference} - {self.status}"
-    
+        return f"{self.pk}-{self.status}"
+    def cancelled(self):
+        self.status = 'Cancelled'
+        self.save()
+    def shipping(self):
+        self.status = 'Shipped'
+        self.save()
+    def delivery(self):
+        self.status = 'Delivered'
+        self.save()
 class Supermarket(models.Model):
     name = models.CharField(max_length=100)
     address = models.TextField(null=True, blank=True)
@@ -32,8 +40,6 @@ class Supermarket(models.Model):
 class OrderLineItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='line_items')
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    quantity = models.PositiveIntegerField()
-    price = models.DecimalField(max_digits=10, decimal_places=2)
-
+    quantity = models.PositiveIntegerField(default=1)
     def __str__(self):
-        return f"{self.product.name} x {self.quantity} (Order: {self.order.reference})"
+        return f"{self.product.name} x {self.quantity} "

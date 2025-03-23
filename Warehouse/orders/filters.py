@@ -16,4 +16,4 @@ class OrderFilter(django_filters.FilterSet):
 
     class Meta:
         model = Order
-        fields = ['reference', 'status', 'supermarket']
+        fields = [ 'status', 'supermarket']

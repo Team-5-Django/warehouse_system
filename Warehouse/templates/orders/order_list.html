@@ -55,8 +55,14 @@
     </thead>
     <tbody>
         {% for order in orders %}
-        <tr>
-            <td>{{ order.reference }}</td>
+        <tr  class="
+        {% if order.status == 'Pending' %}status-pending
+        {% elif order.status == 'Confirmed' %}status-confirmed
+        {% elif order.status == 'Shipped' %}status-shipped
+        {% elif order.status == 'Delivered' %}status-delivered
+        {% endif %}
+    ">          
+            <td >{{ order.reference }}</td>
             <td>{{ order.supermarket.name }}</td>
             <td>{{ order.status }}</td>
             <td>{{ order.created_at }}</td>

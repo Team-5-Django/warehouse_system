@@ -76,7 +76,6 @@ class ProductUpdateView(UpdateView):
 
     def form_valid(self, form):
         product = form.save(commit=False) 
-        product.update_stock_status() 
         product.save() 
         return super().form_valid(form)
 

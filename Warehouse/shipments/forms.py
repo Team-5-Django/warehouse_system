@@ -29,5 +29,10 @@ ShipmentLineItemFormSet = inlineformset_factory(
     can_delete=False
 )
 
+class FactoryForm(forms.ModelForm):
+    class Meta:
+        model = Factory
+        fields = '__all__'
+        
 
 

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <h1 class="mt-5">Factory List</h1>
+    <ul class="list-group mt-3">
+        {% for factory in factories %}
+            <li class="list-group-item">
+                <a href="{% url 'factory_detail' factory.id %}">{{ factory.name }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'add_factory' %}" class="btn btn-primary mt-3">Add New Factory</a>
+</div>
+
+{% endblock %}

@@ -2,11 +2,7 @@
     <button class="toggle-btn mb-2 text-dark " onclick="toggleSidebar()">
         <i class="fas fa-bars text-dark"></i>
     </button>
-<<<<<<< HEAD
-    <a href="#"><i class="fas fa-tachometer-alt"></i> <span>Dashboard</span></a>
-=======
     <a href="{% url 'dashboard' %}"><i class="fas fa-tachometer-alt"></i> <span>Dashboard</span></a>
->>>>>>> 0c114ecb3e08339f31c0d9b66e0f48a43c102b36
     <div class="dropdown">
         <a href="#" class="dropdown-btn" onclick="toggleDropdown(event)">
             <i class="fas fa-box"></i> <span>Inventory</span>
@@ -17,9 +13,9 @@
             <a href="{% url 'categoryproducts' %}">Category</a>
         </div>
     </div>
-    <a href="{% url 'shipment_list' %}"><i class="fas fa-truck"></i> <span>Suppliers</span></a>
+    <a href="{% url 'factory_list' %}"><i class="fas fa-truck"></i> <span>Suppliers</span></a>
     <a href="{% url 'order_list' %}"><i class="fas fa-shopping-cart"></i> <span>Sales Orders</span></a>
-    <a href="#"><i class="fas fa-file-invoice"></i> <span>Purchase Orders</span></a>
+    <a href="{% url 'shipment_list' %}"><i class="fas fa-file-invoice"></i> <span>Purchase Orders</span></a>
 
     {% if user.is_staff %}
     <a href="{% url 'approve_users' %}">

@@ -4,6 +4,8 @@ from .models import Order, OrderLineItem
 from .forms import OrderForm, OrderLineItemFormSet
 from .filters import OrderFilter
 from django.db.models import Q
+from .models import Order
+from .transactions import process_order
 
 # List all orders
 class OrderListView(ListView):
@@ -25,7 +27,6 @@ class OrderListView(ListView):
         search_query = self.request.GET.get('search', '')
         if search_query:
             context['orders'] = self.get_queryset().filter(
-                Q(reference__icontains=search_query) |
                 Q(supermarket__name__icontains=search_query) |
                 Q(status__icontains=search_query)
             )
@@ -45,9 +46,9 @@ class OrderCreateView(CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         if self.request.POST:
-            context['formset'] = OrderLineItemFormSet(self.request.POST)
+            context['formset'] = OrderLineItemFormSet(self.request.POST, instance=self.object)
         else:
-            context['formset'] = OrderLineItemFormSet()
+            context['formset'] = OrderLineItemFormSet(instance=self.object)
         return context
 
     def form_valid(self, form):
@@ -59,9 +60,7 @@ class OrderCreateView(CreateView):
             formset.save()
             return redirect('order_list')
         else:
-            # If the formset is invalid, re-render the form with errors
             return self.render_to_response(self.get_context_data(form=form))
-
 # Update an existing order
 class OrderUpdateView(UpdateView):
     model = Order
@@ -87,3 +86,69 @@ class OrderUpdateView(UpdateView):
         else:
             # If the formset is invalid, re-render the form with errors
             return self.render_to_response(self.get_context_data(form=form))
+
+
+
+def Confirm_order_view(request, pk):
+    order = get_object_or_404(Order, id=pk)
+    try:
+        process_order(order)
+        context = {
+            'order': order,
+            'message': 'Order processed successfully!',
+        }
+        return render(request, 'orders/order_confirmation.html', context)
+
+    except Exception as e:
+        context = {
+            'order': order,
+            'message': f'Error processing order: {str(e)}',
+        }
+        return render(request, 'orders/order_confirmation.html', context)
+def shipping_order_view(request, pk):
+    order = get_object_or_404(Order, id=pk)
+    try:
+        order.shipping()
+        context = {
+            'order': order,
+            'message': 'Order shipped successfully!',
+        }
+        return render(request, 'orders/order_confirmation.html', context)
+    except Exception as e:
+        context = {
+            'order': order,
+            'message': f'Error shipping order: {str(e)}',
+        }
+        return render(request, 'orders/order_confirmation.html', context)
+
+def delivery_order_view(request, pk):
+    order = get_object_or_404(Order, id=pk)
+    try:
+        order.delivery()
+        context = {
+            'order': order,
+            'message': 'Order delivered successfully!',
+        }
+        return render(request, 'orders/order_confirmation.html', context)
+    except Exception as e:
+        context = {
+            'order': order,
+            'message': f'Error delivering order: {str(e)}',
+        }
+        return render(request, 'orders/order_confirmation.html', context)
+
+def cancel_order_view(request, pk):
+    order = get_object_or_404(Order, id=pk)
+    try:
+        order.cancel()
+        context = {
+            'order': order,
+            'message': 'Order cancelled successfully!',
+        }
+        return render(request, 'orders/order_confirmation.html', context)
+    except Exception as e:
+        context = {
+            'order': order,
+            'message': f'Error cancelling order: {str(e)}',
+        }
+        return render(request, 'orders/order_confirmation.html', context)

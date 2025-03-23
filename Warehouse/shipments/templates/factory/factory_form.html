@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <h1 class="mt-5">{% if edit %}Edit{% else %}Add{% endif %} Factory</h1>
+    <form method="post" class="mt-3">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-success">{% if edit %}Update{% else %}Add{% endif %}</button>
+    </form>
+    <a href="{% url 'factory_list' %}" class="btn btn-secondary mt-3">Back to Factory List</a>
+</div>
+{%endblock%}

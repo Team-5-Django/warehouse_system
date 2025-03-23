@@ -5,6 +5,7 @@ class productform(forms.ModelForm):
     class Meta:
         model = Product
         fields = "__all__"
+        exclude = ['sku','created_at', 'updated_at','status']
 
 
 class categoryform(forms.ModelForm):

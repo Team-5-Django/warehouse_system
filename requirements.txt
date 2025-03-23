@@ -4,3 +4,4 @@ django-filter==25.1
 psycopg==3.2.5
 sqlparse==0.5.3
 typing_extensions==4.12.2
+django-filter 

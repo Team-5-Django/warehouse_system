@@ -1,11 +1,10 @@
-<!-- orders/order_form.html -->
 {% extends 'base.html' %}
 {% load static %}
 
 {% block content %}
 <div class="container mt-4">
     <h2 class="mb-4">{% if object %}Edit Order{% else %}Create New Order{% endif %}</h2>
-    
+
     <form method="post" class="needs-validation" novalidate>
         {% csrf_token %}
         
@@ -17,17 +16,15 @@
             <div class="card-body">
                 <div class="row g-3">
                     <div class="col-md-4">
-                        <label for="{{ form.reference.id_for_label }}" class="form-label">Reference</label>
-                        {{ form.reference }}
-                    </div>
-                    <div class="col-md-4">
                         <label for="{{ form.supermarket.id_for_label }}" class="form-label">Supermarket</label>
                         {{ form.supermarket }}
                     </div>
+                    {% if user.is_manager %}
                     <div class="col-md-4">
                         <label for="{{ form.status.id_for_label }}" class="form-label">Status</label>
                         {{ form.status }}
                     </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -50,10 +47,11 @@
                             {{ form.quantity.label_tag }}
                             {{ form.quantity }}
                         </div>
-                        <div class="col-md-3">
-                            {{ form.price.label_tag }}
-                            {{ form.price }}
-                        </div>
+                        <!-- <div class="col-md-4 d-flex align-items-center">
+                            <span class="text-muted ms-3" id="stock-info-{{ forloop.counter }}">
+                                Stock: <span id="stock-value-{{ forloop.counter }}">---</span>
+                            </span>
+                        </div> -->
                         <div class="col-md-2 d-flex align-items-end">
                             {% if formset.can_delete %}
                             {{ form.DELETE.label_tag }}
@@ -80,6 +78,30 @@
     </form>
 </div>
 
-<!-- Formset Management JavaScript -->
+<!-- JavaScript -->
 <script src="{% static 'js/formset.js' %}"></script>
+<script>
+    // JavaScript to dynamically update stock display
+    function updateStock(selectElement, counter) {
+        const selectedOption = selectElement.options[selectElement.selectedIndex];
+        
+        // Extract stock data from the option's text (e.g., "Stock: 10")
+        const stockText = selectedOption.textContent.match(/Stock: (\d+)/); // Regex to capture stock value
+        const stock = stockText ? stockText[1] : "---"; // Default to "---" if no stock value is found
+
+        // Update the stock display for the corresponding product
+        const stockInfoElement = document.getElementById('id_line_items-0-quantity');
+        if (stockInfoElement) {
+            stockInfoElement.setAttribute('max', stock);
+        }
+    }
+
+    // Attach onchange event listeners to all product dropdowns
+    document.addEventListener("DOMContentLoaded", () => {
+        const productSelects = document.querySelectorAll('select[name$="-product"]'); // Target all product fields
+        productSelects.forEach((selectElement, index) => {
+            selectElement.addEventListener("change", () => updateStock(selectElement, index + 1));
+        });
+    });
+</script>
 {% endblock %}

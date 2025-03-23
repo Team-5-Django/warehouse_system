@@ -2,10 +2,11 @@ from django.db import models
 from users.models import User
 from inventory.models import Product
 
+
 class Shipment(models.Model):
     STATUS_CHOICES = [
         ('Pending', 'Pending'),
-        ('Shipped', 'Shipped'),
+        ('Confirmed', 'Confirmed'),
         ('Delivered', 'Delivered'),
     ]
 
@@ -20,9 +21,14 @@ class Shipment(models.Model):
         ordering = ['status', '-created_at']
         verbose_name = "Shipment"
         verbose_name_plural = "Shipments"
+        permissions = [
+            ('confirm_shipment', 'Can confirm shipment'),
+            ('deliver_shipment', 'Can deliver shipment'),
+        ]
 
     def __str__(self):
         return f"{self.reference} - {self.status}"
+
 
 class Factory(models.Model):
     name = models.CharField(max_length=100)
@@ -32,7 +38,7 @@ class Factory(models.Model):
 
     def __str__(self):
         return self.name
-    
+
     @property
     def total_shipments(self):
         return self.shipments.count()
@@ -45,7 +51,3 @@ class ShipmentLineItem(models.Model):
 
     def __str__(self):
         return f"{self.product.name} x {self.quantity} (Shipment: {self.shipment.reference})"
-
-
-
-

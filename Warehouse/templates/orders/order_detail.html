@@ -1,10 +1,30 @@
 {% extends 'base.html' %}
 {% block content %}
-<h2>Order Details: {{ order.reference }}</h2>
-<p>Supermarket: {{ order.supermarket }}</p>
-<p>Status: {{ order.status }}</p>
-<p>Created At: {{ order.created_at }}</p>
-<h3>Line Items</h3>
+<div class="row">
+    <div class="col-md-6">
+        <h2>Order Details: {{ order.reference }}</h2>
+        <p>Supermarket: {{ order.supermarket }}</p>
+        <p>Status: {{ order.status }}</p>
+        <p>Created At: {{ order.created_at }}</p>
+        <h3>Line Items</h3>    </div>
+    <div class="col-md-6 text-right">
+        <!-- confirm -->
+        {%if order.status == "Pending"%}
+        <a href="{% url 'cancel_order' order.pk %}" class="btn btn-danger btn-sm">cancel</a>
+        <a href="{% url 'confirm_order' order.pk %}" class="btn btn-success btn-sm">Confirm</a>
+        {% elif order.status == "Confirmed"%}
+        <!-- shipped -->
+         <a href="{% url 'shipping_order' order.pk %}" class="btn btn-success btn-sm">Shipped</a>
+         {% elif order.status == "Shipped"%}
+        <!-- delivered-->
+         <a href="{% url 'delivered_order' order.pk %}" class="btn btn-primary btn-sm">Delivered</a>
+         {% endif %}
+        <!-- cancel-->
+
+    </div>
+</div>
+
+
 <table class="table table-striped">
     <thead>
         <tr>

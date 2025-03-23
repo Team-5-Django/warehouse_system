@@ -141,5 +141,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
+# settings.py
 
+LOGIN_URL = 'login'  # Replace 'login' with the name of your login URL pattern
 AUTH_USER_MODEL = 'users.User'
