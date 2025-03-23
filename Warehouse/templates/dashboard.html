@@ -24,7 +24,7 @@
                     ">Total Suppliers</h5>
                     <div class="d-flex justify-content-between">
                         <p class="card-text">{{factories|length}}</p>
-                        <a href="#" class="btn btn-primary">View</a>
+                        <a href="{% url 'factory_list' %}" class="btn btn-primary">View</a>
                     </div>
                 </div>
             </div>
@@ -36,7 +36,7 @@
                     ">Total Shipment Orders</h5>
                     <div class="d-flex justify-content-between">
                         <p class="card-text">{{shipments|length}}</p>
-                        <a href="#" class="btn btn-primary">View</a>
+                        <a href="{% url 'shipment_list' %}" class="btn btn-primary">View</a>
                     </div>
                 </div>
             </div>
@@ -50,7 +50,7 @@
                     ">Total Sales Orders</h5>
                     <div class="d-flex justify-content-between">
                         <p class="card-text">{{orders|length}}</p>
-                        <a href="#" class="btn btn-primary">View</a>
+                        <a href="{% url 'order_list' %}" class="btn btn-primary">View</a>
                     </div>
                 </div>
             </div>
@@ -62,7 +62,7 @@
                         ">Total Customers</h5>
                         <div class="d-flex justify-content-between">
                             <p class="card-text">{{supermarkets|length}}</p>
-                            <a href="#" class="btn btn-primary">View</a>
+                            <a href="{% url 'supermarket_list' %}" class="btn btn-primary">View</a>
                         </div>
                     </div>
                 </div>
@@ -74,7 +74,7 @@
                         ">Total Employees</h5>
                         <div class="d-flex justify-content-between">
                             <p class="card-text">{{users|length}}</p>
-                            <a href="#" class="btn btn-primary">View</a>
+                            <a href="{% url 'approve_users' %}" class="btn btn-primary">View</a>
                         </div>
                     </div>
                 </div>
