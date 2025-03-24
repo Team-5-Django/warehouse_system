@@ -108,7 +108,7 @@ def add_user(request):
 @user_passes_test(is_admin)
 def approve_users(request):
     pending_users = PendingUser.objects.all() 
-    all_users = User.objects.all() 
+    all_users = User.objects.exclude(id=request.user.id) 
 
     return render(request, 'users/approve_users.html', {
         'pending_users': pending_users,

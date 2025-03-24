@@ -1,27 +1,51 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1>Order Confirmation</h1>
 
-    <!-- Show Success or Error Message -->
-    <p>{{ message }}</p>
+<div class="container mt-4">
+    <h2 class="w-50" style="color:#003018;"><i class="bi bi-file-earmark-check"></i> Order Confirmation <hr></h2>
 
-    <!-- Display Order Details -->
-    <h2>Order #{{ order.id }}</h2>
-    <p>Status: {{ order.status }}</p>
+    <!-- Success or Error Message -->
+    {% if message %}
+    <div class="alert alert-success text-center w-50">{{ message }}</div>
+    {% endif %}
 
-    <h3>Order Items:</h3>
-    <ul>
+    <!-- Order Details in a Card -->
+    <div class="card shadow-sm border-0 mb-4 w-50" style="border-left: 5px solid #198754;">
+        <div class="card-body">
+            <h4>
+                <i class="bi bi-receipt"></i> Order ID:
+                <span class="fw-bold">{{ order.id }}</span>
+            </h4>
+            <p>
+                <i class="bi bi-info-circle"></i> Status:
+                <span class="badge bg-success">{{ order.status }}</span>
+            </p>
+        </div>
+    </div>
+
+
+    <!-- Order Items -->
+    <h5>Order Items:</h5>
+    <ul class="list-group mb-3">
         {% for item in order.items.all %}
-            <li>{{ item.product.name }} - Quantity: {{ item.quantity }}</li>
+        <li class="list-group-item d-flex justify-content-between">
+            <span>{{ item.product.name }}</span>
+            <span class="fw-bold">x{{ item.quantity }}</span>
+        </li>
         {% endfor %}
     </ul>
 
-    <!-- Display Updated Stock Levels -->
-    <h3>Updated Stock:</h3>
-    <ul>
+    <!-- Updated Stock -->
+    <h5>Updated Stock:</h5>
+    <ul class="list-group">
         {% for item in order.items.all %}
-            <li>{{ item.product.name }} - Remaining Stock: {{ item.product.quantity }}</li>
+        <li class="list-group-item d-flex justify-content-between">
+            <span>{{ item.product.name }}</span>
+            <span class="text-muted">{{ item.product.quantity }} left</span>
+        </li>
         {% endfor %}
     </ul>
 
-    {% endblock %}
+</div>
+
+{% endblock %}

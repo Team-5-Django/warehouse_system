@@ -25,21 +25,21 @@
             <div id="formset-container">
                 {% for form in formset %}
                     <div class="row mb-3 formset-row">
-                        <div class="col-md-5">
+                        <div class="col-md-5 mt-2">
                             {{ form.product }}
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-3 mt-2">
                             {{ form.quantity }}
                         </div>
                         <div class="col-md-4 d-flex align-items-end">
                             {% if formset.can_delete and forloop.counter0 > 0 %}
-                                <button type="button" class="btn btn-danger btn-sm w-100 remove-item">Remove</button>
+                                <button type="button" class="btn btn-outline-danger remove-item">Remove</button>
                             {% endif %}
                         </div>
                     </div>
                 {% endfor %}
             </div>
-            <button type="button" class="btn btn-primary mt-3 w-100" id="add-form">Add Product</button>
+            <button type="button" class="btn btn-success mt-3 w-100 " id="add-form">Add Product</button>
 
             <hr>
 
@@ -50,26 +50,6 @@
         </form>
     </div>
 </div>
-
-<style>
-    body {
-        background-color: #f8f9fa;
-    }
-
-    .card {
-        width: 100%;
-        max-width: 100%;
-        border-radius: 12px;
-    }
-
-    .btn {
-        transition: all 0.3s ease-in-out;
-    }
-
-    .btn:hover {
-        transform: scale(1.05);
-    }
-</style>
 
 <script src="{% static 'js/formset.js' %}"></script>
 <script>
@@ -110,7 +90,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         const removeButton = document.createElement("button");
         removeButton.type = "button";
-        removeButton.className = "btn btn-danger btn-sm w-100 remove-item";
+        removeButton.className = "btn btn-outline-danger m-auto  remove-item";
         removeButton.textContent = "Remove";
         
         const buttonCol = newForm.querySelector(".col-md-4");
