@@ -7,6 +7,10 @@ from .forms import productform , categoryform
 
 
 
+from django.core.paginator import Paginator
+from django.shortcuts import render, get_object_or_404
+from .models import Product
+
 def products(request):
     query = request.GET.get('q', '')  
     filter_by = request.GET.get('filter_by', '')
@@ -25,7 +29,12 @@ def products(request):
     elif filter_by == "out_of_stock":
         products = [p for p in products if p.is_out_of_stock()]
 
-    return render(request, 'inventory/products.html', {'products': products})
+
+    paginator = Paginator(products, 6)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, 'inventory/products.html', {'page_obj': page_obj})
 
 
 class productdetails(DetailView):
