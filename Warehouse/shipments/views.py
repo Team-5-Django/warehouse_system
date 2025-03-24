@@ -31,7 +31,7 @@ def shipment_detail(request, shipment_id):
 
 @login_required
 @permission_required('shipments.add_shipment', raise_exception=True)
-def add_shipment(request):
+def add_shipment(request,product_id=None):
     if request.method == "POST":
         shipment_form = ShipmentForm(request.POST)
 
@@ -60,9 +60,13 @@ def add_shipment(request):
 
     products = Product.objects.all()
     factories = Factory.objects.all()
-
+    if product_id:
+        selected_product = Product.objects.get(id=product_id)
+    else:
+        selected_product = None
     return render(request, "shipments/shipment_form.html", {
         "shipment_form": shipment_form,
+        "selected_product": selected_product,
         "products": products,
         "factories": factories,
     })

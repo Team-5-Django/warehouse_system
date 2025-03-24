@@ -7,29 +7,8 @@ from users.models import User
 from django.db.models import Count  
 
 
-# def get_dashboard_page(request):
-#     users = User.objects.all()
-#     products = Product.objects.all()
-#     categories = Category.objects.all()
-#     orders = Order.objects.all()    
-#     supermarkets = Supermarket.objects.all()
-#     factories = Factory.objects.all()
-#     shipments = Shipment.objects.all()
-
-#     context = {
-#         'users': users,
-#         'products': products,
-#         'categories': categories,
-#         'orders': orders,
-#         'supermarkets': supermarkets,
-#         'factories': factories,
-#         'shipments': shipments,
-#     }
-
-#     return render(request, 'dashboard.html', context)
-
 class DashboardView(TemplateView):
-    template_name = 'dashboard.html'
+    template_name = 'dashboard/dashboard.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -59,3 +38,14 @@ class DashboardView(TemplateView):
 
         return context
 
+class ProductsListView(TemplateView):
+    template_name = 'dashboard/products_list.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        products = Product.objects.all()
+        context.update({
+            'products': products,
+        })
+
+        return context
