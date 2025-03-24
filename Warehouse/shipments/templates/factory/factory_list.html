@@ -5,6 +5,7 @@
     <hr>
     <ul class="list-group mt-3 w-50">
         {% for factory in factories %}
+
             <li class="list-group-item mb-1">
                 <a href="{% url 'factory_detail' factory.id %}">{{ factory.name }}</a>
             </li>

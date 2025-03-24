@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="container-fluid mt-4">
-    <div class="card shadow-sm border rounded p-4 bg-light">
+<div class="container-fluid mt-4" class="register-form">
+    <div class="card shadow-sm border rounded p-4 ">
         <h2 class="mb-3 text-center">Create Shipment</h2>
 
-       <form method="post" id="shipment-form">
+       <form method="post" id="shipment-form" >
         {% csrf_token %}
         <div class="mb-3">
             {% for field in shipment_form %}
@@ -18,7 +18,7 @@
             {% endfor %}
         </div>
 
-    <hr>
+
 
     <h4 class="mb-3">Add Shipment Items</h4>
     <div class="row">
@@ -39,8 +39,8 @@
             <label class="form-label">Quantity</label>
             <input type="number" id="quantity" class="form-control" min="1" value="1">
         </div>
-        <div class="col-md-4 d-flex align-items-end">
-            <button type="button" id="add-item" class="btn btn-primary w-100">Add Product</button>
+        <div class="col-md-4 d-flex align-items-end mb-2">
+            <button type="button" id="add-item" class="btn btn-primary w-100 mt-0">Add Product</button>
         </div>
     </div>
 
@@ -49,8 +49,8 @@
     <hr>
 
     <div class="text-center">
-        <button type="submit" class="btn btn-success px-4">Save Shipment</button>
-        <a href="{% url 'shipment_list' %}" class="btn btn-secondary px-4">Cancel</a>
+        <button type="submit" class="btn btn-primary px-4">Save Shipment</button>
+        <a href="{% url 'shipment_list' %}" class="btn btn-secondary mt-1 px-4 ms-1">Cancel</a>
     </div>
 </form>
 
@@ -58,9 +58,7 @@
 </div>
 
 <style>
-    body {
-        background-color: #f8f9fa;
-    }
+ 
 
     .card {
         width: 100%;
@@ -109,7 +107,7 @@ document.addEventListener("DOMContentLoaded", function () {
             <span>${productName} - </span>
             <input type="number" class="form-control form-control-sm quantity-input" name="quantities[]" value="${quantity}" min="1" style="width: 70px;">
             <input type="hidden" name="products[]" value="${productId}">
-            <button type="button" class="btn btn-danger btn-sm remove-item">Remove</button>
+            <button type="button" class="btn btn-primary btn-sm remove-item">Remove</button>
         `;
 
         shipmentItemsList.appendChild(listItem);

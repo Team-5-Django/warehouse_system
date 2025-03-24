@@ -4,9 +4,11 @@
     <h1 class="mt-5">{{ factory.name }}</h1>
         
     <p>{{ factory.description }}</p>
-    <a href="{% url 'edit_factory' factory.id %}" class="btn btn-warning">Edit</a>
-    <a href="{% url 'delete_factory' factory.id %}" class="btn btn-danger">Delete</a>
-    <a href="{% url 'factory_list' %}" class="btn btn-secondary">Back to Factory List</a>
+    <a href="{% url 'edit_factory' factory.id %}" class="btn btn-primary">Edit</a>
+    <a href="{% url 'delete_factory' factory.id %}" class="btn btn-primary">Delete</a>
+<div>
+    <a href="{% url 'factory_list' %}" class="btn btn-primary mt-3">Back to Factory List</a>
+</div>
 </div>
 
 {% endblock %}
