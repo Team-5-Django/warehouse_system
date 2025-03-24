@@ -1,6 +1,7 @@
 :root {
   --bs-secondary: #cee0ac;
   --bs-danger: #003018;
+  --bs-success: #003018;
 }
 
 body {
@@ -8,9 +9,10 @@ body {
   font-family: "Raleway", sans-serif;
 }
 
+
 .sidebar {
   width: 250px;
-  background-color: #003018;
+  background-color: var(--bs-danger);
   padding: 15px;
   transition: width 0.3s ease;
   overflow: hidden;
@@ -66,7 +68,7 @@ body {
 
 .navbar {
   box-shadow: 0 4px 6px #0000001a;
-  background-color: #003018;
+  background-color: var(--bs-danger);
   color: white;
   padding: 15px 20px;
 }
@@ -145,14 +147,16 @@ body {
 }
 
 .btn-dark,
-.btn-secondary {
+.btn-secondary,
+.btn-success {
   cursor: pointer;
   background: var(--bs-danger);
   margin-bottom: 5px;
 }
 
 .btn-dark:hover,
-.btn-secondary {
+.btn-secondary:hover
+.btn-success:hover {
   background-color: var(--bs-secondary) !important;
   border: none;
 }
@@ -241,18 +245,18 @@ td {
 /* filter style */
 .filter-form {
     background: #f8f9fa;
-    border: 2px solid #2d6a4f;
+    border: 2px solid #003018;
     border-radius: 8px;
 }
 
 .filter-form label {
     font-weight: bold;
-    color: #2d6a4f;
+    color: var(--bs-danger);
 }
 
 .filter-form select,
 .filter-form input {
-    border: 2px solid #2d6a4f;
+    border: 2px solid #003018;
     border-radius: 5px;
     padding: 8px;
     width: 100%;
