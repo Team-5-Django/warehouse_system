@@ -3,7 +3,7 @@
 
 {% block content %}
 <div class="container-fluid mt-4">
-    <div class="card shadow-sm border rounded p-4 bg-light">
+    <div class="card shadow-sm border p-4 ">
         <h2 class="mb-3 text-center">{% if object %}Edit Order{% else %}Create New Order{% endif %}</h2>
 
         <form method="post" id="order-form" class="needs-validation" novalidate>
@@ -18,7 +18,7 @@
                 {% endif %}
             </div>
 
-            <hr>
+          
 
             <h4 class="mb-3">Add Products</h4>
             {{ formset.management_form }}
@@ -39,12 +39,12 @@
                     </div>
                 {% endfor %}
             </div>
-            <button type="button" class="btn btn-success mt-3 w-100 " id="add-form">Add Product</button>
+            <button type="button" class="btn btn-primary mt-3 w-100 " id="add-form">Add Product</button>
 
             <hr>
 
             <div class="text-center">
-                <button type="submit" class="btn btn-success px-4">Save Order</button>
+                <button type="submit" class="btn btn-primary px-4">Save Order</button>
                 <a href="{% url 'order_list' %}" class="btn btn-secondary px-4">Cancel</a>
             </div>
         </form>

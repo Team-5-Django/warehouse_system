@@ -7,7 +7,7 @@
         {% for factory in factories %}
 
             <li class="list-group-item mb-1">
-                <a href="{% url 'factory_detail' factory.id %}">{{ factory.name }}</a>
+                <a id="fn" href="{% url 'factory_detail' factory.id %}">{{ factory.name }}</a>
             </li>
         {% endfor %}
     </ul>
