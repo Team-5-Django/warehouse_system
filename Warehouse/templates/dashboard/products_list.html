@@ -18,13 +18,13 @@
                     <tbody>
                         {% for product in products %}
                             <tr>
-                                <td>{{ product.name }}</td>
+                                <td >{{ product.name }}</td>
                                 <td><img src="{{ product.thumbnail }}" width='50px' height='50px'></td>
-                                <td>{{ product.category }}</td>
-                                <td>{{ product.quantity }} <a href="{% url 'add_shipment' product_id=product.id %}" class="btn btn-success mx-2">Purchase</a> </td>
+                                <td >{{ product.category }}</td>
+                                <td>{{ product.quantity }} <a href="{% url 'add_shipment' product_id=product.id %}" class="btn btn-primary  mx-2">Purchase</a> </td>
                                 <td>
-                                    <a href="{% url 'update_product' product.id %}" class="btn btn-primary">Edit</a>
-                                    <a href="{% url 'delete_product' product.id %}" class="btn btn-danger">Delete</a>
+                                    <a href="{% url 'update_product' product.id %}" class="btn btn-primary ">Edit</a>
+                                    <a href="{% url 'delete_product' product.id %}" class="btn btn-secondary ms-1 mt-1">Delete</a>
                                 </td>
                             </tr>
                         {% endfor %}

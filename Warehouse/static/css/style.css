@@ -1,6 +1,7 @@
 :root {
   --bs-secondary: #cee0ac;
   --bs-danger: #003018;
+  --bs-primary: #003018;
 }
 
 body {
@@ -11,7 +12,7 @@ font-family: 'Raleway', sans-serif;
 
 .sidebar {
   width: 250px;
-  background:#4d6b5c;
+  background: #003018;
   padding: 15px;
   transition: width 0.3s ease;
   overflow: hidden;
@@ -51,7 +52,6 @@ font-family: 'Raleway', sans-serif;
 .toggle-btn {
   background: none;
   border: none;
-  background:#4d6b5c;
   font-size: 24px;
   cursor: pointer;
 }
@@ -243,4 +243,25 @@ tr.status-cancelled td {
 
 td {
   background-color: transparent; /* Ensure the <td> itself doesn't override the <tr> style */
+}
+.btn-primary {
+  background: var(--bs-primary) !important;
+  border: none;
+  box-shadow: none !important;
+}
+
+.btn-primary:hover, 
+.btn-primary:active, 
+.btn-primary:focus {
+  background: var(--bs-secondary) !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+.card {
+  border-radius: 0 !important;
+}
+#fn{
+  color: #003018;
+  text-decoration: none;
+  font-weight: bold;
 }
