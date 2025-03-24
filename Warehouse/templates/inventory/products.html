@@ -7,14 +7,13 @@
 {% block content %}
 <div class="container mt-4">
   <div class="row">
-    
-  
+
     <div class="d-flex align-items-center gap-2 mb-3">
       
       <form method="GET" action="{% url 'products' %}" class="d-flex align-items-center">
         <input type="text" name="q" class="form-control form-control-sm me-2" 
                placeholder="Search products..." value="{{ request.GET.q }}" style="width: 200px;">
-        <button type="submit" class="btn btn-dark btn-sm">Search</button>
+        <button type="submit" class="btn btn-success btn-sm">Search</button>
       </form>
 
       <form method="GET" action="{% url 'products' %}" class="d-flex align-items-center">
@@ -26,25 +25,23 @@
           <option value="low_stock" {% if request.GET.filter_by == "low_stock" %}selected{% endif %}>Low Stock</option>
           <option value="out_of_stock" {% if request.GET.filter_by == "out_of_stock" %}selected{% endif %}>Out of Stock</option>
         </select>
-        <button type="submit" class="btn btn-dark btn-sm">
+        <button type="submit" class="btn btn-success btn-sm">
           <i class="bi bi-sliders2-vertical"></i> Filter
         </button>
       </form>
 
-      <a href="{% url 'add_product' %}" class="btn btn-dark btn-sm px-3 py-1 rounded-pill ms-auto">
+      <a href="{% url 'add_product' %}" class="btn btn-success btn-sm px-3 py-1 rounded-pill ms-auto">
         + Add Product
       </a>
-
     </div>
-
 
     <hr>
 
     <div class="d-flex flex-wrap justify-content-center gap-3">
-      {% for product in products %}
-        <a href="{% url 'productdetails' product_id=product.id %}" class="text-decoration-none" style="color: black;">
+      {% for product in page_obj %}
+        <a href="{% url 'productdetails' product_id=product.id %}" class="text-decoration-none" style="color: green;">
           <div class="card" 
-               style="width: 14rem; border-radius: 0; border: 2px solid #ddd; box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2);">
+               style="width: 14rem; border-radius: 0; border: 2px solid #ddd; box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2); background-color: white;">
             <img src="{{ product.thumbnail }}" class="card-img-top object-fit-cover" 
                  alt="..." style="height: 150px; border-radius: 0;"> 
             <div class="card-body">
@@ -64,6 +61,33 @@
         </a>
       {% endfor %}
     </div>
+
+    <!-- Pagination Controls -->
+    <nav aria-label="Page navigation" class="mt-4">
+      <ul class="pagination justify-content-center">
+        {% if page_obj.has_previous %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous"
+               style="background-color: #003018; color: #cee0ac; border-color: #003018;">
+              &#9664;
+            </a>
+          </li>
+        {% endif %}
+
+        <li class="page-item disabled">
+          <span class="page-link" style="background-color: white; color: green; border-color: green;">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+        </li>
+
+        {% if page_obj.has_next %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next"
+               style="background-color: #003018; color: #cee0ac; border-color: #003018;">
+              &#9654;
+            </a>
+          </li>
+        {% endif %}
+      </ul>
+    </nav>
 
   </div>
 </div>
