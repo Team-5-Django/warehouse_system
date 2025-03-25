@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1>Order Confirmation</h1>
 
-    <!-- Show Success or Error Message -->
-    <p>{{ message }}</p>
+<div class="container mt-4">
+    <h2 class="w-50" style="color:#003018;"><i class="bi bi-file-earmark-check"></i> Order Confirmation <hr></h2>
 
-    <!-- Display Order Details -->
-    <h2>Order #{{ order.id }}</h2>
-    <p>Status: {{ order.status }}</p>
+    <!-- Success or Error Message -->
+    {% if message %}
+    <div class="alert alert-success text-center w-50">{{ message }}</div>
+    {% endif %}
 
     <h3>Order Items:</h3>
     <ul>
@@ -24,4 +24,6 @@
         {% endfor %}
     </ul>
 
-    {% endblock %}
+</div>
+
+{% endblock %}

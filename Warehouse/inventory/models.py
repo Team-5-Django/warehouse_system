@@ -31,7 +31,7 @@ class Product(models.Model):
 
     thumbnail = models.URLField(null=True, blank=True, default='https://mmi-global.com/wp-content/uploads/2020/05/default-product-image.jpg')
     status = models.CharField(max_length=20, choices=STOCK_CHOICES, default="in_stock")
-    updated_at = models.DateTimeField(auto_now=True)  # Automatically updated on each save
+    updated_at = models.DateTimeField(auto_now=True)  
     created_at = models.DateTimeField(auto_now=True)
 
     class Meta:
@@ -51,7 +51,6 @@ class Product(models.Model):
         return self.quantity == 0
 
     def update_stock_status(self):
-        # Update the status based on current stock levels
         if self.is_out_of_stock():
             self.status = self.OUT_OF_STOCK
         elif self.is_low_stock():
@@ -70,4 +69,5 @@ class Product(models.Model):
     def save(self, *args, **kwargs):
         self.full_clean()
         self.set_sku()
+        self.update_stock_status() 
         super().save(*args, **kwargs)

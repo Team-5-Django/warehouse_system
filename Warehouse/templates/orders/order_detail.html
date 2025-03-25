@@ -1,17 +1,18 @@
 {% extends 'base.html' %}
 {% block content %}
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-6 ">
         <h2>Order Details: {{ order.reference }}</h2>
+        <hr>
         <p>Supermarket: {{ order.supermarket }}</p>
         <p>Status: {{ order.status }}</p>
         <p>Created At: {{ order.created_at }}</p>
-        <h3>Line Items</h3>    </div>
+    </div>
     <div class="col-md-6 text-right">
         <!-- confirm -->
         {%if order.status == "Pending"%}
-        <a href="{% url 'cancel_order' order.pk %}" class="btn btn-danger btn-sm">cancel</a>
-        <a href="{% url 'confirm_order' order.pk %}" class="btn btn-success btn-sm">Confirm</a>
+        <a href="{% url 'confirm_order' order.pk %}" class="btn btn-primary btn-sm">Confirm</a>
+        <a href="{% url 'cancel_order' order.pk %}" class="btn btn-primary btn-sm">cancel</a>
         {% elif order.status == "Confirmed"%}
         <!-- shipped -->
          <a href="{% url 'shipping_order' order.pk %}" class="btn btn-success btn-sm">Shipped</a>
@@ -19,12 +20,13 @@
         <!-- delivered-->
          <a href="{% url 'delivered_order' order.pk %}" class="btn btn-primary btn-sm">Delivered</a>
          {% endif %}
-        <!-- cancel-->
-
+         <!-- cancel-->
+         
     </div>
 </div>
 
 
+<h3 class=" w-50 mt-5">Line Items <hr></h3>   
 <table class="table table-striped">
     <thead>
         <tr>
@@ -41,5 +43,5 @@
         {% endfor %}
     </tbody>
 </table>
-<a href="{% url 'order_list' %}" class="btn btn-secondary">Back to Orders</a>
+<a href="{% url 'order_list' %}" class="btn btn-primary">Back to Orders</a>
 {% endblock %}

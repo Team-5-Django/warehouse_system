@@ -12,7 +12,7 @@
     <!-- Sweet Alert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
-        body {font-family: 'Raleway', sans-serif;background-color: #f8f9fa;height: 100vh;}
+        body {font-family: 'Raleway', sans-serif;background-color: #cee0ac;height: 100vh;}
         .login-container {width: 60%;max-width: 600px;background: white;padding: 30px;border-radius: 12px;box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);}
         input {width: 100%;padding: 10px;border: 1px solid #ccc;border-radius: 5px;font-size: 16px;}
     </style>
@@ -37,16 +37,16 @@
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-primary w-100"><i class="fas fa-sign-in-alt"></i> Login</button>
+            <button type="submit" class="btn btn-dark w-100" style="background-color: #003018;"><i class="fas fa-sign-in-alt"></i> Login</button>
         </form>
 
         {% if form.errors %}
-        <p class="text-danger text-center mt-3">Invalid username or password</p>
+        <p class="text-danger text-center mt-3" >Invalid username or password</p>
         {% endif %}
 
         <p class="text-center mt-3">
             Don't have an account?
-            <a href="{% url 'signup' %}" class="fw-bold">Sign Up</a>
+            <a href="{% url 'signup' %}" class="fw-bold" style="color:#003018;">Sign Up</a>
         </p>
     </div>
     <!-- Bootstrap JS -->

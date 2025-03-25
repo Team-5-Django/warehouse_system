@@ -1,18 +1,21 @@
 :root {
   --bs-secondary: #cee0ac;
   --bs-danger: #003018;
-  --bs-primary: #003018;
+
+  --bs-success: #003018;
+
 }
 
 body {
-display: flex;
-font-family: 'Raleway', sans-serif;
-
+  display: flex;
+  font-family: "Raleway", sans-serif;
 }
+
 
 .sidebar {
   width: 250px;
-  background: #003018;
+  background-color: var(--bs-danger);
+
   padding: 15px;
   transition: width 0.3s ease;
   overflow: hidden;
@@ -23,7 +26,7 @@ font-family: 'Raleway', sans-serif;
 }
 
 .sidebar a {
-  color: black;
+  color: var(--bs-secondary);
   display: flex;
   align-items: center;
   padding: 10px;
@@ -31,10 +34,10 @@ font-family: 'Raleway', sans-serif;
   margin-top: 15px;
 }
 
-.sidebar a:hover{
-    background-color: #cee0ac;
+.sidebar a:hover {
+  color: var(--bs-danger);
+  background-color: var(--bs-secondary);
 }
-
 
 .sidebar i {
   margin-right: 10px;
@@ -45,9 +48,8 @@ font-family: 'Raleway', sans-serif;
 }
 .sidebar.collapsed .dropdown-icon,
 .sidebar.collapsed .dropdown-btn span {
-    display: none;
+  display: none;
 }
-
 
 .toggle-btn {
   background: none;
@@ -61,7 +63,6 @@ font-family: 'Raleway', sans-serif;
   padding: 20px;
   transition: margin-left 0.3s ease;
   width: calc(100% - 250px);
-
 }
 
 .collapsed ~ .content {
@@ -70,8 +71,8 @@ font-family: 'Raleway', sans-serif;
 
 .navbar {
   box-shadow: 0 4px 6px #0000001a;
-  background-color: #003018;
-  color:white;
+  background-color: var(--bs-danger);
+  color: white;
   padding: 15px 20px;
 }
 
@@ -81,13 +82,12 @@ font-family: 'Raleway', sans-serif;
   gap: 20px;
 }
 
-.nav-link{
-    color: #ffffff66;
+.nav-link {
+  color: #ffffff66;
 }
 
 .nav-link:hover {
-  color:white;
-
+  color: white;
 }
 
 .navbar img {
@@ -96,21 +96,19 @@ font-family: 'Raleway', sans-serif;
   border-radius: 50%;
 }
 
-
-.container{
-  background-color:#cee0ac;
-
+.container {
+  background-color: #cee0ac;
 }
 
 .register-form {
-  width: 60%; 
-  max-width: 900px; 
+  width: 60%;
+  max-width: 900px;
   margin: 20px auto;
-  background: #fff;
   padding: 15px;
   border-radius: 0;
   box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
-  border: 1px solid #ddd;
+  border: 1px solid white;
+  background: white !important;
 }
 
 .register-form h2 {
@@ -125,8 +123,8 @@ font-family: 'Raleway', sans-serif;
   margin-top: 5px;
 }
 
-.register-form input, 
-.register-form select, 
+.register-form input,
+.register-form select,
 .register-form textarea {
   width: 100%;
   padding: 8px;
@@ -138,8 +136,8 @@ font-family: 'Raleway', sans-serif;
 }
 
 .register-form textarea {
-  height: 35px; 
-  resize: none; 
+  height: 35px;
+  resize: none;
   overflow: hidden;
 }
 
@@ -151,32 +149,30 @@ font-family: 'Raleway', sans-serif;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
 
-.btn-dark,.btn-secondary {
+.btn-dark,
+.btn-success {
   cursor: pointer;
   background: var(--bs-danger);
   margin-bottom: 5px;
 }
 
-.btn-dark:hover,.btn-secondary {
-  background-color: var(--bs-secondary)!important;
-  border:none;
+.btn-dark:hover,
+.btn-secondary:hover
+.btn-success:hover {
+  background-color: var(--bs-secondary) !important;
+  border: none;
 }
-.toggle-btn{
+.toggle-btn {
   color: black;
 }
 
-
-
-
-
-
-
-
+/* sidebar style */
 .sidebar {
   width: 250px;
   padding: 10px;
 }
-.sidebar a, .dropdown-btn {
+.sidebar a,
+.dropdown-btn {
   display: flex;
   align-items: center;
   padding: 10px;
@@ -207,49 +203,76 @@ font-family: 'Raleway', sans-serif;
 }
 
 /* static/css/style.css */
-.form-control, .form-select {
+.form-control,
+.form-select {
   margin-bottom: 0.5rem;
 }
 
-
 /* abdo  */
-.errorlist > li
-{
+.errorlist > li {
   color: red;
 }
-
 tr.status-pending td {
-  background-color: rgb(252, 255, 104) !important; /* Use !important to ensure it takes precedence */
+  background-color: #f3f2e6 !important;
+  color: #6c5e00 !important;
 }
-
 tr.status-confirmed td {
-  background-color: rgb(253, 177, 27) !important;
-
+  background-color: #e0ecd5 !important;
+  color: #3d550c !important;
 }
 
 tr.status-shipped td {
-  background-color: rgb(146, 219, 255) !important;
+  background-color: #cfe7e2 !important;
+  color: #2d6a4f !important;
 }
 
 tr.status-delivered td {
-  background-color: rgb(71, 255, 20) !important;
-
+  background-color: #b7dfc8 !important;
+  color: #1b4332 !important;
 }
 
 tr.status-cancelled td {
-  background-color: rgb(82, 83, 85) !important;
-
+  background-color: #f4d7da !important;
+  color: #8b0000 !important;
 }
 
 td {
   background-color: transparent; /* Ensure the <td> itself doesn't override the <tr> style */
 }
+/* filter style */
+.filter-form {
+    background: #f8f9fa;
+    border: 2px solid #003018;
+    border-radius: 8px;
+}
+
+.filter-form label {
+    font-weight: bold;
+    color: var(--bs-danger);
+}
+
+.filter-form select,
+.filter-form input {
+    border: 2px solid #003018;
+    border-radius: 5px;
+    padding: 8px;
+    width: 100%;
+}
+
+.filter-form button {
+    min-width: 100px;
+}
+
 .btn-primary {
-  background: var(--bs-primary) !important;
+  background: var(--bs-success) !important;
   border: none;
   box-shadow: none !important;
 }
 
+.btn-secondary {
+  background: var(--bs-secondary) !important;
+  border: none;
+}
 .btn-primary:hover, 
 .btn-primary:active, 
 .btn-primary:focus {
@@ -258,10 +281,12 @@ td {
   outline: none !important;
 }
 .card {
-  border-radius: 0 !important;
+  border-radius: 0 !important;
 }
 #fn{
   color: #003018;
   text-decoration: none;
   font-weight: bold;
 }
+
+

@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="container">
-    <h2>Supermarkets</h2>
-    <a href="{% url 'supermarket_create' %}" class="btn btn-primary mb-3">Add Supermarket</a>
-    <table class="table table-striped">
+<div class="container table-responsive">
+    <h2 class="w-50 mt-3"><i class="bi bi-shop me-2"></i> Supermarkets <hr></h2>
+    <a href="{% url 'supermarket_create' %}" class="btn btn-dark mb-3">Add Supermarket</a>
+    <table class="table table-striped ">
         <thead>
             <tr>
                 <th>Name</th>
@@ -23,6 +23,7 @@
                 <td>
                     <a href="{% url 'supermarket_update' supermarket.pk %}" class="btn btn-primary btn-sm">Edit</a>
                     <a href="{% url 'supermarket_delete' supermarket.pk %}" class="btn btn-primary btn-sm">Delete</a>
+
                 </td>
             </tr>
             {% empty %}

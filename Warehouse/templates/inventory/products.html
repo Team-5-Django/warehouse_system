@@ -7,71 +7,93 @@
 {% block content %}
 <div class="container mt-4">
   <div class="row">
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
 
-    <div class="col-md-3">
-      <div class="card p-3 shadow-sm">
-        <h6 class="fw-bold">🔍 Search & Filter</h6>
 
-  
-        <form method="GET" action="{% url 'products' %}" class="mb-3">
-          <input type="text" name="q" class="form-control form-control-sm mb-2" 
-                 placeholder="Search products..." value="{{ request.GET.q }}">
-          <button type="submit" class="btn btn-dark btn-sm w-100">Search</button>
-        </form>
-        
+      <form method="GET" action="{% url 'products' %}" class="d-flex align-items-center gap-2">
+        <input type="text" name="q" class="form-control form-control-sm w-auto" 
+               placeholder="Search products..." value="{{ request.GET.q }}" style="min-width: 180px;">
+        <button type="submit" class="btn btn-success btn-sm">Search</button>
+      </form>
 
-        <form method="GET" action="{% url 'products' %}">
-          <select name="filter_by" class="form-select form-select-sm mb-2">
-            <option value="">Filter by...</option>
-            <option value="name" {% if request.GET.filter_by == "name" %}selected{% endif %}>Name</option>
-            <option value="sku" {% if request.GET.filter_by == "sku" %}selected{% endif %}>SKU</option>
-            <option value="category" {% if request.GET.filter_by == "category" %}selected{% endif %}>Category</option>
-            <option value="low_stock" {% if request.GET.filter_by == "low_stock" %}selected{% endif %}>Low Stock</option>
-            <option value="out_of_stock" {% if request.GET.filter_by == "out_of_stock" %}selected{% endif %}>Out of Stock</option>
-          </select>
-          <button type="submit" class="btn btn-dark btn-sm w-100">
-            <i class="bi bi-sliders2-vertical"></i> Filter by
-          </button>
-        </form>
-      </div>
+
+      <form method="GET" action="{% url 'products' %}" class="d-flex align-items-center gap-2">
+        <select name="filter_by" class="form-select form-select-sm w-auto" style="min-width: 150px;">
+          <option value="">Filter by...</option>
+          <option value="name" {% if request.GET.filter_by == "name" %}selected{% endif %}>Name</option>
+          <option value="sku" {% if request.GET.filter_by == "sku" %}selected{% endif %}>SKU</option>
+          <option value="category" {% if request.GET.filter_by == "category" %}selected{% endif %}>Category</option>
+          <option value="low_stock" {% if request.GET.filter_by == "low_stock" %}selected{% endif %}>Low Stock</option>
+          <option value="out_of_stock" {% if request.GET.filter_by == "out_of_stock" %}selected{% endif %}>Out of Stock</option>
+        </select>
+        <button type="submit" class="btn btn-success btn-sm">
+          <i class="bi bi-sliders2-vertical"></i> Filter
+        </button>
+      </form>
+
+    
+      <a href="{% url 'add_product' %}" class="btn btn-success btn-sm px-3 py-1 rounded-pill">
+        + Add Product
+      </a>
     </div>
 
-    <!-- Product List -->
-    <div class="col-md-9">
-      <div class="d-flex justify-content-end mb-3">
-        <a href="{% url 'add_product' %}" class="btn btn-dark btn-sm px-3 py-1 rounded-pill">
-          + Add Product
-        </a>
-      </div>
-      
-      <div class="d-flex flex-wrap justify-content-center gap-3">
-        {% for product in products %}
-          <a href="{% url 'productdetails' product_id=product.id %}" class="text-decoration-none" style="color: black;">
-            <div class="card" 
-                 style="width: 14rem; border-radius: 0; border: 2px solid #ddd; box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2);">
-              <img src="{{ product.thumbnail }}" class="card-img-top object-fit-cover" 
-                   alt="..." style="height: 150px; border-radius: 0;"> 
-              <div class="card-body">
-                <h6 class="card-title">{{ product.name }}</h6>
-                <p class="card-text" style="font-size: 0.85rem;">{{ product.description }}</p>
-                
-                
-                <span class="badge 
-                  {% if product.status == 'in_stock' %} bg-success 
-                  {% elif product.status == 'low_stock' %} bg-warning 
-                  {% elif product.status == 'out_of_stock' %} bg-danger 
-                  {% endif %}">
-                  {{ product.get_status_display }}
-                </span>
-      
-              </div>
+
+  </div>
+</div>
+
+
+    <hr>
+
+    <div class="d-flex flex-wrap justify-content-center gap-3">
+      {% for product in page_obj %}
+        <a href="{% url 'productdetails' product_id=product.id %}" class="text-decoration-none" style="color: green;">
+          <div class="card" 
+               style="width: 14rem; border-radius: 0; border: 2px solid #ddd; box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2); background-color: white;">
+            <img src="{{ product.thumbnail }}" class="card-img-top object-fit-cover" 
+                 alt="..." style="height: 150px; border-radius: 0;"> 
+            <div class="card-body">
+              <h6 class="card-title">{{ product.name }}</h6>
+              <p class="card-text" style="font-size: 0.85rem;">{{ product.description }}</p>
+              
+              <span class="badge 
+                {% if product.status == 'in_stock' %} bg-success 
+                {% elif product.status == 'low_stock' %} bg-warning 
+                {% elif product.status == 'out_of_stock' %} bg-danger 
+                {% endif %}">
+                {{ product.get_status_display }}
+              </span>
+    
             </div>
-          </a>
-        {% endfor %}
-      </div>
-      </div>      
-      </div>
+          </div>
+        </a>
+      {% endfor %}
     </div>
+
+    <nav aria-label="Page navigation" class="mt-4">
+      <ul class="pagination justify-content-center">
+        {% if page_obj.has_previous %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous"
+               style="background-color: #003018; color: #cee0ac; border-color: #003018;">
+              &#9664;
+            </a>
+          </li>
+        {% endif %}
+
+        <li class="page-item disabled">
+          <span class="page-link" style="background-color: white; color: green; border-color: green;">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+        </li>
+
+        {% if page_obj.has_next %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next"
+               style="background-color: #003018; color: #cee0ac; border-color: #003018;">
+              &#9654;
+            </a>
+          </li>
+        {% endif %}
+      </ul>
+    </nav>
 
 
 {% endblock %}
