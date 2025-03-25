@@ -9,10 +9,9 @@ class DeleteButtonWidget(forms.Widget):
 class OrderForm(forms.ModelForm):
     class Meta:
         model = Order
-        fields = ['supermarket', 'status']
+        fields = ['supermarket']
         widgets = {
             'supermarket': forms.Select(attrs={'class': 'form-select'}),
-            'status': forms.Select(attrs={'class': 'form-select'}),
         }
 
 class OrderLineItemForm(forms.ModelForm):

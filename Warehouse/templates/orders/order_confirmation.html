@@ -9,40 +9,18 @@
     <div class="alert alert-success text-center w-50">{{ message }}</div>
     {% endif %}
 
-    <!-- Order Details in a Card -->
-    <div class="card shadow-sm border-0 mb-4 w-50" style="border-left: 5px solid #198754;">
-        <div class="card-body">
-            <h4>
-                <i class="bi bi-receipt"></i> Order ID:
-                <span class="fw-bold">{{ order.id }}</span>
-            </h4>
-            <p>
-                <i class="bi bi-info-circle"></i> Status:
-                <span class="badge bg-success">{{ order.status }}</span>
-            </p>
-        </div>
-    </div>
-
-
-    <!-- Order Items -->
-    <h5>Order Items:</h5>
-    <ul class="list-group mb-3">
-        {% for item in order.items.all %}
-        <li class="list-group-item d-flex justify-content-between">
-            <span>{{ item.product.name }}</span>
-            <span class="fw-bold">x{{ item.quantity }}</span>
-        </li>
+    <h3>Order Items:</h3>
+    <ul>
+        {% for item in order.line_items.all %}
+            <li>{{ item.product.name }} - Quantity: {{ item.quantity }}</li>
         {% endfor %}
     </ul>
 
-    <!-- Updated Stock -->
-    <h5>Updated Stock:</h5>
-    <ul class="list-group">
-        {% for item in order.items.all %}
-        <li class="list-group-item d-flex justify-content-between">
-            <span>{{ item.product.name }}</span>
-            <span class="text-muted">{{ item.product.quantity }} left</span>
-        </li>
+    <!-- Display Updated Stock Levels -->
+    <h3>Updated Stock:</h3>
+    <ul>
+        {% for item in order.line_items.all %}
+            <li>{{ item.product.name }} - Remaining Stock: {{ item.product.quantity }}</li>
         {% endfor %}
     </ul>
 
